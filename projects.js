@@ -12,7 +12,8 @@ const projects = [
     tags: ["Figma", "Notion"],
     image: "assets/project-aothub.svg",
     link: "https://figma.com",
-    github: ""
+    github: "",
+    featured: true
   },
   {
     id: "spotify-fit",
@@ -23,7 +24,8 @@ const projects = [
     tags: ["Figma", "Notion"],
     image: "assets/project-spotifyfit.svg",
     link: "https://figma.com",
-    github: ""
+    github: "",
+    featured: true
   },
   {
     id: "xp-bar",
@@ -34,7 +36,8 @@ const projects = [
     tags: ["Figma", "Premiere Pro"],
     image: "assets/project-xpbar.svg",
     link: "https://figma.com",
-    github: ""
+    github: "",
+    featured: true
   },
   {
     id: "posters",
@@ -45,7 +48,8 @@ const projects = [
     tags: ["Illustrator", "Figma"],
     image: "assets/project-posters.svg",
     link: "https://figma.com",
-    github: ""
+    github: "",
+    featured: false
   }
 ];
 

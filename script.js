@@ -1,71 +1,25 @@
 /**
- * Sohan Pal Portfolio - Core Interactive Logic
- * Plain Vanilla JS, no dependencies
+ * Sohan Pal Portfolio - Desktop OS Window Manager & Interactive System
+ * Plain Vanilla JS, no external libraries or build step
  */
 
 // Configurable Form Endpoint (e.g. Formspree / Web3Forms / Formkeep)
-// To connect to your backend, simply replace this URL:
 const CONTACT_FORM_ENDPOINT = "https://formspree.io/f/xyzyqazb";
-
-/**
- * Creative Stack Data
- * Easy to add, remove, or modify items
- */
-const creativeStackData = [
-  {
-    category: "DESIGN",
-    chips: ["UI Design", "UX Research", "Wireframing", "Prototyping", "Design Systems"]
-  },
-  {
-    category: "VISUAL",
-    chips: ["Branding", "Typography", "Editorial", "Illustration"]
-  },
-  {
-    category: "TOOLS",
-    chips: ["Figma", "Illustrator", "Photoshop", "Framer", "Premiere Pro"]
-  },
-  {
-    category: "CODE",
-    chips: ["HTML / CSS", "Tailwind", "React (basics)", "Framer Motion"]
-  }
-];
-
-/**
- * Testimonials Data
- * Easy to add or edit pinned notes
- */
-const testimonialsData = [
-  {
-    quote: "Sohan has the rare ability to turn fuzzy product ideas into interfaces that immediately feel obvious. A joy to collaborate with.",
-    author: "Maya Iyer",
-    org: "Foglamp Studio"
-  },
-  {
-    quote: "As the Convenor of the IEI Students' Chapter (CSE) at AOT, I highly recommend Sohan. He is an exceptionally hardworking and creative designer who consistently elevated our chapter's visual presence. Sohan brings fresh ideas to every project and delivers outstanding results with strong dedication. He is a valuable asset to any team.",
-    author: "Sukrit Deb",
-    org: "Convenor, SCCSE"
-  },
-  {
-    quote: "Calm, considerate and opinionated when it matters. Easily one of the most delightful people I've worked with in the past two years.",
-    author: "Shramana Bandyopadhyay",
-    org: "Core member, SCCSE"
-  }
-];
 
 document.addEventListener("DOMContentLoaded", () => {
   initLiveClocks();
-  initProjectsRender();
-  initScrollFeatures();
-  initScrollSpy();
+  renderAllData();
+  initWindowManager();
+  initTabsSystem();
   initAudioToggle();
   initCopyEmail();
   initContactForm();
-  initScrollAnimations();
+  initMobileBanner();
   initCustomCursor();
 });
 
 /* ==========================================================================
-   1. LIVE CLOCKS (Top Menu & Hero Widget)
+   1. LIVE CLOCKS (Top Menu & Left Status Widget)
    ========================================================================== */
 function initLiveClocks() {
   const headerClock = document.getElementById("headerClock");
@@ -74,22 +28,19 @@ function initLiveClocks() {
   function updateTime() {
     const now = new Date();
 
-    // Format date: "Sun Oct 11"
     const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     const dayName = days[now.getDay()];
     const monthName = months[now.getMonth()];
     const dateNum = now.getDate();
 
-    // 12-hour format with AM/PM
     let hours = now.getHours();
     const minutes = String(now.getMinutes()).padStart(2, "0");
     const ampm = hours >= 12 ? "PM" : "AM";
     hours = hours % 12;
-    hours = hours ? hours : 12; // 0 hour should be 12
+    hours = hours ? hours : 12;
     const hoursStr = String(hours).padStart(2, "0");
 
-    // Header clock update
     if (headerClock) {
       headerClock.innerHTML = `
         <span class="clock-date">${dayName} ${monthName} ${dateNum}</span>
@@ -98,7 +49,6 @@ function initLiveClocks() {
       `;
     }
 
-    // Hero widget large clock update
     if (widgetClock) {
       widgetClock.innerHTML = `
         <span class="widget-time-digits">${hoursStr}:${minutes}</span>
@@ -112,9 +62,16 @@ function initLiveClocks() {
 }
 
 /* ==========================================================================
-   2. DYNAMIC PROJECTS RENDER FROM projects.js
+   2. DYNAMIC CONTENT RENDERING FROM SHARED DATA FILES
    ========================================================================== */
-function initProjectsRender() {
+function renderAllData() {
+  renderProjects();
+  renderTestimonials();
+  renderTimeline();
+  renderStack();
+}
+
+function renderProjects() {
   const container = document.getElementById("projectsContainer");
   if (!container) return;
 
@@ -159,86 +116,498 @@ function initProjectsRender() {
   });
 }
 
-/* ==========================================================================
-   3. SCROLL PROGRESS & SMOOTH NAVIGATION
-   ========================================================================== */
-function initScrollFeatures() {
-  const progressBar = document.getElementById("scrollProgressBar");
+function renderTestimonials() {
+  const container = document.getElementById("testimonialsContainer");
+  if (!container) return;
 
-  function updateProgressBar() {
-    if (!progressBar) return;
-    const scrollTop = window.scrollY || document.documentElement.scrollTop;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-    progressBar.style.width = `${Math.min(100, Math.max(0, progress))}%`;
+  if (typeof testimonials === "undefined" || !Array.isArray(testimonials)) {
+    console.warn("Testimonials data not found in testimonials.js");
+    return;
   }
 
-  window.addEventListener("scroll", updateProgressBar, { passive: true });
-  updateProgressBar();
+  container.innerHTML = "";
 
-  // Smooth scroll for internal links
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener("click", function (e) {
-      const targetId = this.getAttribute("href");
-      if (targetId === "#") return;
-      const targetEl = document.querySelector(targetId);
-      if (targetEl) {
-        e.preventDefault();
-        targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    });
+  testimonials.forEach((item) => {
+    const card = document.createElement("div");
+    card.className = `testimonial-card note-${item.fill || "cream"} tilt-${item.tilt || "subtle"}`;
+
+    card.innerHTML = `
+      <div class="note-quote-glyph" aria-hidden="true">“</div>
+      <p class="note-quote">${item.quote}</p>
+      <div class="note-footer">
+        <div class="note-author">${item.author}</div>
+        <div class="note-org">${item.org}</div>
+      </div>
+    `;
+
+    container.appendChild(card);
+  });
+}
+
+function renderTimeline() {
+  const container = document.getElementById("timelineContainer");
+  if (!container) return;
+
+  if (typeof timeline === "undefined" || !Array.isArray(timeline)) {
+    console.warn("Timeline data not found in timeline.js");
+    return;
+  }
+
+  container.innerHTML = "";
+
+  timeline.forEach((item) => {
+    const row = document.createElement("div");
+    row.className = "timeline-row";
+
+    row.innerHTML = `
+      <div class="timeline-time">${item.year}</div>
+      <div class="timeline-content">
+        <h4 class="timeline-role">${item.role}</h4>
+        <p class="timeline-desc">${item.desc}</p>
+        <div class="timeline-org">${item.org}</div>
+      </div>
+    `;
+
+    container.appendChild(row);
+  });
+}
+
+function renderStack() {
+  const container = document.getElementById("stackContainer");
+  if (!container) return;
+
+  if (typeof creativeStack === "undefined" || !Array.isArray(creativeStack)) {
+    console.warn("Stack data not found in stack.js");
+    return;
+  }
+
+  container.innerHTML = "";
+
+  creativeStack.forEach((cat) => {
+    const card = document.createElement("div");
+    card.className = `stack-card stack-card-${cat.fill || "cream"}`;
+
+    const chipsHtml = cat.chips.map(chip => `<span class="stack-chip">${chip}</span>`).join("");
+
+    card.innerHTML = `
+      <div class="stack-card-label">${cat.category}</div>
+      <div class="stack-chips">${chipsHtml}</div>
+    `;
+
+    container.appendChild(card);
   });
 }
 
 /* ==========================================================================
-   4. SCROLL-SPY NAVIGATION TRACKING
+   3. RETRO DESKTOP OS WINDOW MANAGER
    ========================================================================== */
-function initScrollSpy() {
-  const sections = document.querySelectorAll("section[id]");
-  const navLinks = document.querySelectorAll(".nav-link[data-section]");
+function initWindowManager() {
+  const workspace = document.getElementById("desktopWorkspace");
+  const taskbarItems = document.getElementById("taskbarItems");
   const centerDisplay = document.getElementById("currentSectionDisplay");
 
-  const sectionTitles = {
-    home: "Home",
-    work: "Work",
-    about: "About",
-    stack: "Stack",
-    testimonials: "Testimonials",
-    contact: "Contact"
-  };
+  const windowDefs = [
+    { id: "welcome", title: "/home/sohan: portfolio.exe", defaultOpen: true, cascadeIndex: 0 },
+    { id: "work", title: "Selected work", defaultOpen: false, cascadeIndex: 1 },
+    { id: "about", title: "About.txt", defaultOpen: false, cascadeIndex: 2 },
+    { id: "contact", title: "Say hi", defaultOpen: false, cascadeIndex: 3 },
+    { id: "links", title: "Socials", defaultOpen: false, cascadeIndex: 4 }
+  ];
 
-  function onScroll() {
-    const scrollPos = window.scrollY + 120;
-    let currentId = "home";
+  const windows = {};
+  let highestZ = 10;
+  let activeWinId = "welcome";
 
-    sections.forEach(section => {
-      const top = section.offsetTop;
-      const height = section.offsetHeight;
-      if (scrollPos >= top && scrollPos < top + height) {
-        currentId = section.getAttribute("id");
+  windowDefs.forEach(def => {
+    const el = document.getElementById(`win-${def.id}`);
+    if (el) {
+      windows[def.id] = {
+        id: def.id,
+        title: def.title,
+        el: el,
+        isOpen: def.defaultOpen,
+        isMinimized: false,
+        cascadeIndex: def.cascadeIndex,
+        hasCustomPos: false
+      };
+    }
+  });
+
+  function isMobile() {
+    return window.innerWidth <= 768;
+  }
+
+  // Update center title bar and active states
+  function updateTopDisplay() {
+    if (!centerDisplay) return;
+
+    if (activeWinId && windows[activeWinId] && windows[activeWinId].isOpen && !windows[activeWinId].isMinimized) {
+      centerDisplay.textContent = windows[activeWinId].title;
+    } else {
+      // Find highest visible window
+      let topWin = null;
+      let maxZ = -1;
+      Object.values(windows).forEach(w => {
+        if (w.isOpen && !w.isMinimized) {
+          const z = parseInt(w.el.style.zIndex || "0", 10);
+          if (z > maxZ) {
+            maxZ = z;
+            topWin = w;
+          }
+        }
+      });
+      if (topWin) {
+        activeWinId = topWin.id;
+        centerDisplay.textContent = topWin.title;
+      } else {
+        centerDisplay.textContent = "portfolio.exe";
+        activeWinId = null;
       }
-    });
-
-    // Check if bottom of page reached
-    if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 50) {
-      currentId = "contact";
     }
 
-    navLinks.forEach(link => {
-      if (link.getAttribute("data-section") === currentId) {
+    // Update nav links active class
+    document.querySelectorAll(".nav-link").forEach(link => {
+      const target = link.getAttribute("data-target");
+      if (target && target === activeWinId) {
         link.classList.add("active");
       } else {
         link.classList.remove("active");
       }
     });
 
-    if (centerDisplay && sectionTitles[currentId]) {
-      centerDisplay.textContent = sectionTitles[currentId];
+    renderTaskbar();
+  }
+
+  // Bring specified window to top of stacking context
+  function bringToFront(id) {
+    const win = windows[id];
+    if (!win || !win.isOpen) return;
+
+    if (win.isMinimized) {
+      win.isMinimized = false;
+      win.el.style.display = "flex";
+    }
+
+    highestZ += 1;
+    win.el.style.zIndex = highestZ;
+    activeWinId = id;
+
+    updateTopDisplay();
+  }
+
+  // Flash titlebar feedback if window is already front-most
+  function flashTitlebar(id) {
+    const win = windows[id];
+    if (!win) return;
+    const titlebar = win.el.querySelector(".window-titlebar");
+    if (titlebar) {
+      titlebar.classList.add("is-flashing");
+      setTimeout(() => titlebar.classList.remove("is-flashing"), 220);
     }
   }
 
-  window.addEventListener("scroll", onScroll, { passive: true });
-  onScroll();
+  // Open window (or bring to front / flash if already open)
+  function openWindow(id) {
+    const win = windows[id];
+    if (!win) return;
+
+    // Mobile: single active modal sheet
+    if (isMobile()) {
+      Object.values(windows).forEach(w => {
+        if (w.id !== id && w.isOpen) {
+          w.isOpen = false;
+          w.el.style.display = "none";
+        }
+      });
+      win.isOpen = true;
+      win.isMinimized = false;
+      win.el.style.display = "flex";
+      win.el.classList.add("is-open");
+      bringToFront(id);
+      return;
+    }
+
+    // Desktop mode
+    if (win.isOpen && !win.isMinimized) {
+      bringToFront(id);
+      flashTitlebar(id);
+      return;
+    }
+
+    if (win.isMinimized) {
+      win.isMinimized = false;
+      win.el.style.display = "flex";
+      bringToFront(id);
+      return;
+    }
+
+    // If opening afresh, apply cascade offset if not dragged before
+    if (!win.hasCustomPos && win.id !== "welcome") {
+      const cascadeStep = 24;
+      const offsetX = (win.cascadeIndex * cascadeStep) % 120;
+      const offsetY = (win.cascadeIndex * cascadeStep) % 120;
+      win.el.style.left = `${offsetX}px`;
+      win.el.style.top = `${offsetY}px`;
+    }
+
+    win.isOpen = true;
+    win.isMinimized = false;
+    win.el.style.display = "flex";
+    win.el.classList.add("is-open");
+
+    bringToFront(id);
+  }
+
+  // Minimize window to bottom taskbar
+  function minimizeWindow(id) {
+    const win = windows[id];
+    if (!win) return;
+
+    if (isMobile()) {
+      closeWindow(id);
+      return;
+    }
+
+    win.isMinimized = true;
+    win.el.style.display = "none";
+
+    // Switch focus to remaining top window
+    let nextTop = null;
+    let maxZ = -1;
+    Object.values(windows).forEach(w => {
+      if (w.id !== id && w.isOpen && !w.isMinimized) {
+        const z = parseInt(w.el.style.zIndex || "0", 10);
+        if (z > maxZ) {
+          maxZ = z;
+          nextTop = w;
+        }
+      }
+    });
+
+    if (nextTop) {
+      activeWinId = nextTop.id;
+    } else {
+      activeWinId = null;
+    }
+
+    updateTopDisplay();
+  }
+
+  // Close window
+  function closeWindow(id) {
+    const win = windows[id];
+    if (!win) return;
+
+    win.isOpen = false;
+    win.isMinimized = false;
+    win.el.style.display = "none";
+
+    // Activate next open window
+    let nextTop = null;
+    let maxZ = -1;
+    Object.values(windows).forEach(w => {
+      if (w.isOpen && !w.isMinimized) {
+        const z = parseInt(w.el.style.zIndex || "0", 10);
+        if (z > maxZ) {
+          maxZ = z;
+          nextTop = w;
+        }
+      }
+    });
+
+    if (nextTop) {
+      activeWinId = nextTop.id;
+    } else {
+      activeWinId = null;
+    }
+
+    updateTopDisplay();
+  }
+
+  // Render open windows into bottom taskbar pills
+  function renderTaskbar() {
+    if (!taskbarItems) return;
+    taskbarItems.innerHTML = "";
+
+    Object.values(windows).forEach(win => {
+      if (!win.isOpen) return;
+
+      const btn = document.createElement("button");
+      btn.type = "button";
+      const isActive = activeWinId === win.id && !win.isMinimized;
+      btn.className = `taskbar-btn ${isActive ? "active" : ""} ${win.isMinimized ? "minimized" : ""}`;
+      btn.setAttribute("data-taskbar-id", win.id);
+      btn.setAttribute("title", win.title);
+
+      btn.innerHTML = `
+        <span class="taskbar-dot"></span>
+        <span class="taskbar-text">${win.title}</span>
+      `;
+
+      btn.addEventListener("click", () => {
+        if (win.isMinimized) {
+          win.isMinimized = false;
+          win.el.style.display = "flex";
+          bringToFront(win.id);
+        } else if (activeWinId === win.id) {
+          minimizeWindow(win.id);
+        } else {
+          bringToFront(win.id);
+        }
+      });
+
+      taskbarItems.appendChild(btn);
+    });
+  }
+
+  // Setup titlebar dragging and click-to-front
+  Object.values(windows).forEach(win => {
+    // Bring to front on pointerdown anywhere inside the window
+    win.el.addEventListener("pointerdown", () => {
+      bringToFront(win.id);
+    });
+
+    // Control buttons inside titlebar
+    const closeBtn = win.el.querySelector('.control-btn[data-action="close"]');
+    if (closeBtn) {
+      closeBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        closeWindow(win.id);
+      });
+    }
+
+    const minBtn = win.el.querySelector('.control-btn[data-action="minimize"]');
+    if (minBtn) {
+      minBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        minimizeWindow(win.id);
+      });
+    }
+
+    // Draggable Titlebar (Pointer Events with Viewport Clamping)
+    const titlebar = win.el.querySelector('.window-titlebar[data-drag-handle="true"]');
+    if (titlebar) {
+      let isDragging = false;
+      let startPointerX = 0;
+      let startPointerY = 0;
+      let startWinLeft = 0;
+      let startWinTop = 0;
+
+      titlebar.addEventListener("pointerdown", (e) => {
+        if (e.target.closest(".control-btn")) return;
+        if (isMobile()) return;
+
+        isDragging = true;
+        bringToFront(win.id);
+
+        titlebar.setPointerCapture(e.pointerId);
+
+        startPointerX = e.clientX;
+        startPointerY = e.clientY;
+
+        const winRect = win.el.getBoundingClientRect();
+        const wsRect = workspace ? workspace.getBoundingClientRect() : { left: 0, top: 0 };
+
+        startWinLeft = winRect.left - wsRect.left;
+        startWinTop = winRect.top - wsRect.top;
+      });
+
+      titlebar.addEventListener("pointermove", (e) => {
+        if (!isDragging) return;
+
+        const dx = e.clientX - startPointerX;
+        const dy = e.clientY - startPointerY;
+
+        let targetLeft = startWinLeft + dx;
+        let targetTop = startWinTop + dy;
+
+        // Viewport clamping: Titlebar MUST always stay reachable
+        const wsRect = workspace ? workspace.getBoundingClientRect() : { left: 0, top: 0 };
+        const minLeft = -wsRect.left + 10;
+        const maxLeft = window.innerWidth - 140 - wsRect.left;
+        const minTop = -wsRect.top + 60;
+        const maxTop = window.innerHeight - 80 - wsRect.top;
+
+        targetLeft = Math.min(maxLeft, Math.max(minLeft, targetLeft));
+        targetTop = Math.min(maxTop, Math.max(minTop, targetTop));
+
+        win.el.style.left = `${targetLeft}px`;
+        win.el.style.top = `${targetTop}px`;
+        win.hasCustomPos = true;
+      });
+
+      const stopDrag = (e) => {
+        if (isDragging) {
+          isDragging = false;
+          try {
+            titlebar.releasePointerCapture(e.pointerId);
+          } catch (err) {}
+        }
+      };
+
+      titlebar.addEventListener("pointerup", stopDrag);
+      titlebar.addEventListener("pointercancel", stopDrag);
+    }
+  });
+
+  // Global trigger delegation for data-target buttons
+  document.addEventListener("click", (e) => {
+    const trigger = e.target.closest("[data-target]");
+    if (trigger) {
+      const targetId = trigger.getAttribute("data-target");
+      if (targetId && windows[targetId]) {
+        e.preventDefault();
+        openWindow(targetId);
+      }
+    }
+  });
+
+  // Keyboard shortcut: Esc closes front-most window
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && activeWinId && windows[activeWinId]) {
+      closeWindow(activeWinId);
+    }
+  });
+
+  // Initial display setup
+  updateTopDisplay();
+}
+
+/* ==========================================================================
+   4. WINDOW TABS SWITCHER SYSTEM
+   ========================================================================== */
+function initTabsSystem() {
+  document.addEventListener("click", (e) => {
+    const tabBtn = e.target.closest(".tab-btn");
+    if (!tabBtn) return;
+
+    const group = tabBtn.getAttribute("data-tab-group");
+    const targetPaneId = tabBtn.getAttribute("data-tab-target");
+    if (!group || !targetPaneId) return;
+
+    const windowEl = tabBtn.closest(".os-window");
+    if (!windowEl) return;
+
+    // Switch active tab button
+    windowEl.querySelectorAll(`.tab-btn[data-tab-group="${group}"]`).forEach(btn => {
+      btn.classList.remove("active");
+      btn.setAttribute("aria-selected", "false");
+    });
+    tabBtn.classList.add("active");
+    tabBtn.setAttribute("aria-selected", "true");
+
+    // Switch visible tab pane
+    windowEl.querySelectorAll(".tab-pane").forEach(pane => {
+      pane.classList.remove("active");
+      pane.style.display = "none";
+    });
+
+    const targetPane = document.getElementById(targetPaneId);
+    if (targetPane) {
+      targetPane.classList.add("active");
+      targetPane.style.display = "block";
+    }
+  });
 }
 
 /* ==========================================================================
@@ -255,14 +624,12 @@ function initAudioToggle() {
     isPlaying = !isPlaying;
 
     if (isPlaying) {
-      // Pause icon (two bars)
       audioIcon.innerHTML = `
         <rect x="6" y="4" width="4" height="16" rx="1"/>
         <rect x="14" y="4" width="4" height="16" rx="1"/>
       `;
       toggleBtn.setAttribute("title", "Pause");
     } else {
-      // Play icon (triangle)
       audioIcon.innerHTML = `
         <polygon points="6 4 20 12 6 20 6 4"/>
       `;
@@ -286,7 +653,6 @@ function initCopyEmail() {
       if (navigator.clipboard && navigator.clipboard.writeText) {
         await navigator.clipboard.writeText(emailText);
       } else {
-        // Fallback for older browsers
         const temp = document.createElement("input");
         temp.value = emailText;
         document.body.appendChild(temp);
@@ -322,27 +688,23 @@ function initContactForm() {
     e.preventDefault();
     let hasError = false;
 
-    // Reset error states
     document.querySelectorAll(".form-group").forEach(g => g.classList.remove("has-error"));
     if (statusAlert) {
       statusAlert.className = "form-status-alert";
       statusAlert.style.display = "none";
     }
 
-    // Name validation
     if (!nameInput.value.trim()) {
       nameInput.closest(".form-group").classList.add("has-error");
       hasError = true;
     }
 
-    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailInput.value.trim() || !emailRegex.test(emailInput.value.trim())) {
       emailInput.closest(".form-group").classList.add("has-error");
       hasError = true;
     }
 
-    // Message validation
     if (!msgInput.value.trim()) {
       msgInput.closest(".form-group").classList.add("has-error");
       hasError = true;
@@ -350,20 +712,17 @@ function initContactForm() {
 
     if (hasError) return;
 
-    // Prepare payload
     const formData = {
       name: nameInput.value.trim(),
       email: emailInput.value.trim(),
       message: msgInput.value.trim()
     };
 
-    // UI loading state
     const originalBtnText = submitBtn.innerHTML;
     submitBtn.disabled = true;
     submitBtn.innerHTML = `<span>Sending...</span>`;
 
     try {
-      // Post to endpoint if real, otherwise mock response for local testing
       let responseOk = true;
       if (CONTACT_FORM_ENDPOINT && !CONTACT_FORM_ENDPOINT.includes("xyzyqazb")) {
         const res = await fetch(CONTACT_FORM_ENDPOINT, {
@@ -373,7 +732,6 @@ function initContactForm() {
         });
         responseOk = res.ok;
       } else {
-        // Simulated local delay
         await new Promise(r => setTimeout(r, 600));
         responseOk = true;
       }
@@ -398,29 +756,17 @@ function initContactForm() {
 }
 
 /* ==========================================================================
-   8. ENTRANCE REVEAL ANIMATIONS (INTERSECTION OBSERVER)
+   8. MOBILE HR NOTIFICATION BANNER
    ========================================================================== */
-function initScrollAnimations() {
-  const elements = document.querySelectorAll(".window-frame, .widget-panel, .bottom-footer-bar");
-  
-  if (!("IntersectionObserver" in window)) {
-    elements.forEach(el => el.classList.add("is-revealed"));
-    return;
-  }
+function initMobileBanner() {
+  const closeBtn = document.getElementById("btnBannerClose");
+  const banner = document.getElementById("mobileHrBanner");
 
-  const observer = new IntersectionObserver((entries, obs) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("is-revealed");
-        obs.unobserve(entry.target);
-      }
+  if (closeBtn && banner) {
+    closeBtn.addEventListener("click", () => {
+      banner.classList.add("is-dismissed");
     });
-  }, {
-    threshold: 0.1,
-    rootMargin: "0px 0px -40px 0px"
-  });
-
-  elements.forEach(el => observer.observe(el));
+  }
 }
 
 /* ==========================================================================
@@ -430,14 +776,11 @@ function initCustomCursor() {
   const cursor = document.querySelector(".cursor");
   if (!cursor) return;
 
-  // Only enable on devices with a fine pointer (mouse/trackpad, not touch)
   const isFinePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   if (!isFinePointer) return;
 
-  // Check reduced motion preference
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // Activate custom cursor styling & hide native cursor
   document.documentElement.classList.add("custom-cursor-active");
 
   let targetX = -100;
@@ -459,10 +802,8 @@ function initCustomCursor() {
   const LERP_FACTOR = 0.18;
   const REST_ROTATION = -8;
 
-  // Event delegation selector for interactive elements
-  const interactiveSelector = 'a, button, [role="button"], input, textarea, .desktop-icon, .desktop-icon-item, .project-row, .dock-pill, .stack-chip, .testimonial-card';
+  const interactiveSelector = 'a, button, [role="button"], input, textarea, .desktop-icon-btn, .project-row, .tab-btn, .taskbar-btn, .control-btn, .link-btn-card, .stack-chip, .testimonial-card, .window-titlebar';
 
-  // Evaluate target element for hover or text field state
   function updateCursorState(element) {
     if (!element) {
       isHover = false;
@@ -471,7 +812,6 @@ function initCustomCursor() {
       return;
     }
 
-    // Text inputs and textareas -> vertical I-beam bar (2px x 20px)
     const textTarget = element.closest('input:not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="checkbox"]):not([type="radio"]), textarea');
     if (textTarget) {
       isText = true;
@@ -481,7 +821,6 @@ function initCustomCursor() {
       return;
     }
 
-    // Interactive elements -> enlarged teal square (~28px)
     const interactiveTarget = element.closest(interactiveSelector);
     if (interactiveTarget) {
       isHover = true;
@@ -491,13 +830,11 @@ function initCustomCursor() {
       return;
     }
 
-    // Default rest state -> peach square (~14px) with -8deg rotation
     isHover = false;
     isText = false;
     cursor.classList.remove("is-hover", "is-text");
   }
 
-  // Pointer position tracking
   window.addEventListener("mousemove", (e) => {
     targetX = e.clientX;
     targetY = e.clientY;
@@ -512,7 +849,6 @@ function initCustomCursor() {
     updateCursorState(e.target);
   }, { passive: true });
 
-  // Event delegation on mouseover and mouseout for instant state responsiveness
   document.addEventListener("mouseover", (e) => {
     updateCursorState(e.target);
   });
@@ -521,7 +857,6 @@ function initCustomCursor() {
     updateCursorState(e.relatedTarget);
   });
 
-  // Mousedown & Mouseup scaling (scale down to ~0.8 on press)
   window.addEventListener("mousedown", () => {
     isDown = true;
   });
@@ -530,7 +865,6 @@ function initCustomCursor() {
     isDown = false;
   });
 
-  // Hide cursor when mouse leaves window and show again on re-entry
   document.addEventListener("mouseleave", () => {
     cursor.classList.remove("is-visible");
   });
@@ -541,7 +875,6 @@ function initCustomCursor() {
     }
   });
 
-  // Animation render loop using requestAnimationFrame
   function render() {
     if (prefersReducedMotion) {
       currentX = targetX;
@@ -549,15 +882,12 @@ function initCustomCursor() {
       currentRot = 0;
       currentScale = 1;
     } else {
-      // Lerp translation (~0.18 smoothing lag)
       currentX += (targetX - currentX) * LERP_FACTOR;
       currentY += (targetY - currentY) * LERP_FACTOR;
 
-      // Rotation: -8deg at rest, 0deg when hovering interactive or text fields
       targetRot = (isHover || isText) ? 0 : REST_ROTATION;
       currentRot += (targetRot - currentRot) * LERP_FACTOR;
 
-      // Scale: 0.8 on mousedown, 1 on release
       targetScale = isDown ? 0.8 : 1;
       currentScale += (targetScale - currentScale) * LERP_FACTOR;
     }

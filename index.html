@@ -14,6 +14,20 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
+  <!-- Mode Flash Prevention (runs before paint) -->
+  <script>
+    (function() {
+      var params = new URLSearchParams(window.location.search);
+      var urlMode = params.get('mode');
+      var stored = null;
+      try { stored = localStorage.getItem('portfolio-mode'); } catch(e) {}
+      var mode = urlMode || stored || 'desktop';
+      if (mode !== 'desktop' && mode !== 'hr') mode = 'desktop';
+      document.documentElement.setAttribute('data-mode', mode);
+      try { localStorage.setItem('portfolio-mode', mode); } catch(e) {}
+    })();
+  </script>
+
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -21,45 +35,57 @@
   <!-- Ambient Flowing Wave Bands & Grain Overlay -->
   <div class="ambient-waves" aria-hidden="true">
     <svg class="wave-canvas" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-      <!-- Ribbon 1: Sweeping right flank band entering from top and cascading diagonally down -->
-      <path d="M 980 -50 C 1090 120 1250 200 1300 400 C 1360 630 1220 740 1490 950 L 1490 -50 Z" fill="#D3E4DD" />
-      
-      <!-- Ribbon 2: Wide flowing S-curve sweeping from upper-left down across bottom-center -->
-      <path d="M -50 -50 L 260 -50 C 220 160 140 280 200 420 C 280 580 440 640 480 770 C 510 870 420 920 320 950 L -50 950 Z" fill="#D3E4DD" />
-      
-      <!-- Ribbon 3: Bottom right wave ribbon connecting the rhythm -->
-      <path d="M 640 950 C 800 810 1000 740 1180 790 C 1320 830 1410 790 1490 730 L 1490 950 Z" fill="#D3E4DD" />
+      <!-- Cream Canvas Base -->
+      <rect width="100%" height="100%" fill="#EFE8D6" />
+
+      <!-- Ribbon 1: Sweeping right flank band entering from top and cascading diagonally down behind desktop icons -->
+      <path d="M 1020 -50 C 960 160 990 320 1010 460 C 1040 620 1200 720 1480 820 L 1480 -50 Z" fill="#D3E4DD" />
+
+      <!-- Ribbon 2: Sweeping wide S-curve ribbon flowing from mid-left across center-bottom -->
+      <path d="M -50 200 C 160 160 260 280 220 440 C 170 620 280 720 480 820 C 580 870 660 920 740 950 L 460 950 C 320 950 240 860 160 760 C 80 660 -10 580 -50 560 Z" fill="#D3E4DD" />
+
+      <!-- Ribbon 3: Bottom-left and bottom swell wave -->
+      <path d="M -50 580 C 120 540 260 620 320 760 C 370 880 400 930 460 950 L -50 950 Z" fill="#D3E4DD" />
     </svg>
     <div class="grain-overlay"></div>
   </div>
 
-  <!-- 1. Top Menu Bar (Sticky) -->
-  <header class="top-menu-bar" id="mainHeader">
+  <!-- Mobile Notification Banner (Dismissible) -->
+  <aside class="mobile-hr-banner" id="mobileHrBanner" aria-label="Alternative view hint">
+    <div class="banner-content">
+      <span>Just browsing? Try HR mode</span>
+      <button type="button" class="btn-banner-toggle" id="btnBannerHrToggle">View HR mode</button>
+    </div>
+    <button type="button" class="btn-banner-close" id="btnBannerClose" aria-label="Dismiss banner">✕</button>
+  </aside>
+
+  <!-- 1. Top Menu Bar (Outlined Floating Box) -->
+  <header class="top-menu-bar" id="mainHeader" role="banner">
     <div class="menu-bar-inner">
       
-      <!-- Left: Monitor Icon + Navigation Links -->
+      <!-- Left: Monitor Icon + Navigation Items -->
       <div class="nav-left">
-        <a href="#home" class="brand-monitor" aria-label="Home page">
+        <button type="button" class="brand-monitor nav-window-trigger" data-target="welcome" aria-label="Open Welcome desktop window">
           <svg class="icon-monitor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="2" y="3" width="20" height="14" rx="2"/>
             <line x1="8" y1="21" x2="16" y2="21"/>
             <line x1="12" y1="17" x2="12" y2="21"/>
           </svg>
-        </a>
-        <nav class="nav-links" id="navLinks" aria-label="Main Navigation">
-          <a href="#home" class="nav-link active" data-section="home">Home</a>
+        </button>
+        <nav class="nav-links" id="navLinks" aria-label="Desktop Navigation">
+          <button type="button" class="nav-link active nav-window-trigger" data-target="welcome">Home</button>
           <span class="nav-separator">/</span>
-          <a href="#work" class="nav-link" data-section="work">Work</a>
+          <button type="button" class="nav-link nav-window-trigger" data-target="work">Work</button>
           <span class="nav-separator">/</span>
-          <a href="#about" class="nav-link" data-section="about">About</a>
+          <button type="button" class="nav-link nav-window-trigger" data-target="about">About</button>
           <span class="nav-separator">/</span>
-          <a href="#contact" class="nav-link" data-section="contact">Contact</a>
+          <button type="button" class="nav-link nav-window-trigger" data-target="contact">Contact</button>
         </nav>
       </div>
 
-      <!-- Center: Current Section Dynamic Display -->
+      <!-- Center: Active Front-most Window Dynamic Title -->
       <div class="nav-center" id="currentSectionDisplay" aria-live="polite">
-        Home
+        portfolio.exe
       </div>
 
       <!-- Right: Live Date & Clock + Let's Talk button -->
@@ -69,512 +95,258 @@
           <span class="clock-dot">·</span>
           <span class="clock-time">01:35 PM</span>
         </div>
-        <a href="#contact" class="btn-talk" id="btnHeaderTalk">Let's talk</a>
+        <button type="button" class="btn-mode-toggle" id="btnModeToggle" aria-label="Switch view mode" title="Switch to HR mode">
+          <span class="mode-toggle-icon" id="modeToggleIcon">☰</span>
+          <span class="mode-toggle-label" id="modeToggleLabel">HR mode</span>
+        </button>
+        <button type="button" class="btn-talk nav-window-trigger" data-target="contact" id="btnHeaderTalk">Let's talk</button>
       </div>
 
     </div>
 
-    <!-- Scroll Progress Line -->
-    <div class="scroll-progress-container" aria-hidden="true">
-      <div class="scroll-progress-bar" id="scrollProgressBar"></div>
-    </div>
+    <!-- Permanent Thin Peach Line Along Bottom -->
+    <div class="scroll-progress-container" aria-hidden="true"></div>
   </header>
 
-  <!-- Main Content Layout -->
-  <main class="page-container">
+  <!-- 2. One-Screen Desktop Main Canvas -->
+  <main class="desktop-main" id="desktopMain" role="main">
 
-    <!-- 2. Hero Desktop Scene -->
-    <section class="hero-section" id="home" aria-label="Desktop Scene">
-      <div class="hero-desktop-grid">
-
-        <!-- Left Widget Panel -->
-        <aside class="widget-panel" aria-label="System status widget">
-          <div class="widget-header">
-            <svg class="icon-widget-screen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="3" width="20" height="14" rx="2"/>
-              <line x1="8" y1="21" x2="16" y2="21"/>
-              <line x1="12" y1="17" x2="12" y2="21"/>
-            </svg>
-          </div>
-
-          <!-- Large Live Clock -->
-          <div class="widget-clock" id="widgetClock">
-            <span class="widget-time-digits">01:35</span>
-            <span class="widget-time-period">PM</span>
-          </div>
-
-          <!-- Resource / Vibe Gauges -->
-          <div class="widget-gauges">
-            <div class="gauge-item">
-              <div class="gauge-meta">
-                <span class="gauge-name">vol</span>
-                <span class="gauge-val">/ 80%</span>
-              </div>
-              <div class="gauge-track">
-                <div class="gauge-fill" style="width: 80%;"></div>
-              </div>
-            </div>
-
-            <div class="gauge-item">
-              <div class="gauge-meta">
-                <span class="gauge-name">cpu</span>
-                <span class="gauge-val">/ coffee</span>
-              </div>
-              <div class="gauge-track">
-                <div class="gauge-fill" style="width: 68%;"></div>
-              </div>
-            </div>
-
-            <div class="gauge-item">
-              <div class="gauge-meta">
-                <span class="gauge-name">ram</span>
-                <span class="gauge-val">/ ideas</span>
-              </div>
-              <div class="gauge-track">
-                <div class="gauge-fill" style="width: 92%;"></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="widget-divider"></div>
-
-          <!-- Now Playing Status -->
-          <div class="widget-now-playing">
-            <button class="now-playing-toggle" id="btnAudioToggle" aria-label="Toggle playback animation" title="Play / Pause">
-              <svg class="icon-play-state" id="audioIcon" viewBox="0 0 24 24" fill="currentColor">
-                <rect x="6" y="4" width="4" height="16" rx="1"/>
-                <rect x="14" y="4" width="4" height="16" rx="1"/>
-              </svg>
-            </button>
-            <div class="now-playing-text">
-              <span class="now-playing-label">NOW PLAYING:</span>
-              <span class="now-playing-song">A little design, a lot of coffee.</span>
-            </div>
-          </div>
-        </aside>
-
-        <!-- Center Teal Hero Window -->
-        <article class="hero-window window-frame" aria-label="Welcome Window">
-          <!-- Window Title Bar -->
-          <div class="window-titlebar">
-            <div class="window-controls">
-              <span class="control-dot"></span>
-              <span class="control-dot"></span>
-            </div>
-            <div class="window-title">/home/sohan: portfolio.exe</div>
-            <div class="window-controls-end">
-              <span class="control-dash">—</span>
-            </div>
-          </div>
-
-          <!-- Window Inner Surface (Pale Teal) -->
-          <div class="window-body hero-teal-body">
-            
-            <!-- Address Bar / URL Bar -->
-            <div class="address-bar-pill">
-              <span class="address-text">sohanpal.design / welcome</span>
-              <span class="cursor-block" aria-hidden="true">█</span>
-            </div>
-
-            <!-- Inner Welcome Card -->
-            <div class="inner-welcome-card">
-              <div class="badge-label">WELCOME!</div>
-              <h1 class="hero-heading">Crafting designs that interact and engage.</h1>
-              <p class="hero-intro">
-                I'm Sohan Pal, a designer based in Kolkata. I make interfaces, identities and the small motion in between.
-              </p>
-              <div class="hero-actions">
-                <a href="#work" class="btn btn-peach">View Work</a>
-                <a href="#contact" class="btn btn-peach">Contact Me</a>
-              </div>
-            </div>
-
-          </div>
-        </article>
-
-        <!-- Right Desktop Icons Column -->
-        <aside class="desktop-icons-col" aria-label="Desktop shortcut icons">
-          
-          <a href="#home" class="desktop-icon desktop-icon-item" title="Jump to top">
-            <div class="icon-box">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="3" width="20" height="14" rx="2"/>
-                <line x1="8" y1="21" x2="16" y2="21"/>
-                <line x1="12" y1="17" x2="12" y2="21"/>
-              </svg>
-            </div>
-            <span class="icon-label">Desktop</span>
-          </a>
-
-          <a href="assets/resume.pdf" download="Sohan_Pal_Resume.pdf" class="desktop-icon desktop-icon-item" title="Download Resume">
-            <div class="icon-box">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
-                <line x1="12" y1="11" x2="12" y2="17"/>
-                <polyline points="9 14 12 17 15 14"/>
-              </svg>
-            </div>
-            <span class="icon-label">Downloads</span>
-          </a>
-
-          <a href="#work" class="desktop-icon desktop-icon-item" title="Browse projects">
-            <div class="icon-box">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"/>
-                <line x1="2" y1="12" x2="22" y2="12"/>
-                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-              </svg>
-            </div>
-            <span class="icon-label">Internet</span>
-          </a>
-
-          <a href="#about" class="desktop-icon desktop-icon-item" title="Read About Me">
-            <div class="icon-box">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="4" width="18" height="16" rx="3"/>
-                <circle cx="9" cy="10" r="2"/>
-                <line x1="15" y1="8" x2="17" y2="8"/>
-                <line x1="15" y1="12" x2="17" y2="12"/>
-                <path d="M7 16c0-1.5 1-2.5 2.5-2.5s2.5 1 2.5 2.5"/>
-              </svg>
-            </div>
-            <span class="icon-label">My Life</span>
-          </a>
-
-        </aside>
-
+    <!-- Fixed Left Status Widget Panel -->
+    <aside class="widget-panel" id="systemWidget" aria-label="System status widget">
+      <div class="widget-header">
+        <svg class="icon-widget-screen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="3" width="20" height="14" rx="2"/>
+          <line x1="8" y1="21" x2="16" y2="21"/>
+          <line x1="12" y1="17" x2="12" y2="21"/>
+        </svg>
       </div>
 
-      <!-- Dock of Pills & Scroll Caption -->
-      <div class="hero-dock-wrapper">
-        <div class="dock-pill-container" aria-label="Social media links">
-          <a href="https://behance.net" target="_blank" rel="noopener noreferrer" class="dock-pill" title="Behance">Be</a>
-          <a href="https://dribbble.com" target="_blank" rel="noopener noreferrer" class="dock-pill" title="Dribbble">Dr</a>
-          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="dock-pill" title="Instagram">In</a>
-          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="dock-pill" title="LinkedIn">Li</a>
-          <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="dock-pill" title="GitHub">Gi</a>
+      <!-- Large Live Clock -->
+      <div class="widget-clock" id="widgetClock">
+        <span class="widget-time-digits">01:35</span>
+        <span class="widget-time-period">PM</span>
+      </div>
+
+      <!-- Resource / Vibe Gauges -->
+      <div class="widget-gauges">
+        <div class="gauge-item">
+          <div class="gauge-meta">
+            <span class="gauge-name">vol</span>
+            <span class="gauge-val">/ 80%</span>
+          </div>
+          <div class="gauge-track">
+            <div class="gauge-fill" style="width: 80%;"></div>
+          </div>
         </div>
-        <div class="scroll-explore-caption">
-          <span>Scroll to explore</span>
-          <span class="scroll-arrow" aria-hidden="true">↓</span>
+
+        <div class="gauge-item">
+          <div class="gauge-meta">
+            <span class="gauge-name">cpu</span>
+            <span class="gauge-val">/ coffee</span>
+          </div>
+          <div class="gauge-track">
+            <div class="gauge-fill" style="width: 68%;"></div>
+          </div>
+        </div>
+
+        <div class="gauge-item">
+          <div class="gauge-meta">
+            <span class="gauge-name">ram</span>
+            <span class="gauge-val">/ ideas</span>
+          </div>
+          <div class="gauge-track">
+            <div class="gauge-fill" style="width: 92%;"></div>
+          </div>
         </div>
       </div>
-    </section>
 
-    <!-- 3. Work Window ("Selected work") -->
-    <section class="section-container" id="work" aria-label="Selected Work">
-      <div class="window-frame">
-        
-        <!-- Window Title Bar -->
-        <div class="window-titlebar">
+      <div class="widget-divider"></div>
+
+      <!-- Now Playing Status -->
+      <div class="widget-now-playing">
+        <button type="button" class="now-playing-toggle" id="btnAudioToggle" aria-label="Toggle playback animation" title="Play / Pause">
+          <svg class="icon-play-state" id="audioIcon" viewBox="0 0 24 24" fill="currentColor">
+            <rect x="6" y="4" width="4" height="16" rx="1"/>
+            <rect x="14" y="4" width="4" height="16" rx="1"/>
+          </svg>
+        </button>
+        <div class="now-playing-text">
+          <span class="now-playing-label">NOW PLAYING:</span>
+          <span class="now-playing-song">A little design, a lot of coffee.</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Desktop Windows Workspace (Draggable Window Area) -->
+    <div class="desktop-workspace" id="desktopWorkspace" aria-label="Desktop Workspace">
+
+      <!-- ===================================================================
+           WINDOW 1: WELCOME WINDOW (/home/sohan: portfolio.exe) - OPEN BY DEFAULT
+           =================================================================== -->
+      <div class="os-window window-welcome" id="win-welcome" role="dialog" aria-labelledby="title-welcome" data-window-id="welcome" style="z-index: 10;">
+        <div class="window-titlebar" data-drag-handle="true">
           <div class="window-controls">
-            <span class="control-dot"></span>
-            <span class="control-dot"></span>
+            <button type="button" class="control-btn btn-close" data-action="close" aria-label="Close window" title="Close">✕</button>
+            <button type="button" class="control-btn btn-minimize" data-action="minimize" aria-label="Minimize window" title="Minimize">−</button>
           </div>
-          <div class="window-title">Selected work</div>
+          <div class="window-title" id="title-welcome">/home/sohan: portfolio.exe</div>
           <div class="window-controls-end">
             <span class="control-dash">—</span>
           </div>
         </div>
 
-        <!-- Window Body -->
-        <div class="window-body work-window-body">
-          <div class="section-header-block">
-            <div class="section-pre-label">INDEX · 4 PROJECTS</div>
-            <h2 class="section-title">Selected work.</h2>
-            <p class="section-desc">
-              A small archive of things I've made: student briefs, concept work and the occasional client project.
+        <div class="window-body hero-teal-body">
+          <!-- Address Bar / URL Bar -->
+          <div class="address-bar-pill">
+            <span class="address-text">sohanpal.design / welcome</span>
+            <span class="cursor-block" aria-hidden="true">█</span>
+          </div>
+
+          <!-- Inner Welcome Card -->
+          <div class="inner-welcome-card">
+            <div class="badge-label">WELCOME!</div>
+            <h1 class="hero-heading">Crafting designs that interact and engage.</h1>
+            <p class="hero-intro">
+              I'm Sohan Pal, a designer based in Kolkata. I make interfaces, identities and the small motion in between.
             </p>
-          </div>
-
-          <div class="work-divider"></div>
-
-          <!-- Dynamic Project Rows Container -->
-          <div class="projects-list" id="projectsContainer">
-            <!-- Dynamically injected from projects.js -->
-            <noscript>
-              <p>Please enable JavaScript to view selected projects.</p>
-            </noscript>
+            <div class="hero-actions">
+              <button type="button" class="btn btn-peach nav-window-trigger" data-target="work">View Work</button>
+              <button type="button" class="btn btn-peach nav-window-trigger" data-target="contact">Contact Me</button>
+            </div>
           </div>
         </div>
-
       </div>
-    </section>
 
-    <!-- 4. About Window ("About.txt") -->
-    <section class="section-container" id="about" aria-label="About Me">
-      <div class="window-frame">
-        
-        <!-- Window Title Bar -->
-        <div class="window-titlebar">
+      <!-- ===================================================================
+           WINDOW 2: WORK WINDOW (Selected work)
+           Tabs: [Projects] [Testimonials]
+           =================================================================== -->
+      <div class="os-window window-work" id="win-work" role="dialog" aria-labelledby="title-work" data-window-id="work" style="display: none;">
+        <div class="window-titlebar" data-drag-handle="true">
           <div class="window-controls">
-            <span class="control-dot"></span>
-            <span class="control-dot"></span>
+            <button type="button" class="control-btn btn-close" data-action="close" aria-label="Close window" title="Close">✕</button>
+            <button type="button" class="control-btn btn-minimize" data-action="minimize" aria-label="Minimize window" title="Minimize">−</button>
           </div>
-          <div class="window-title">About.txt</div>
+          <div class="window-title" id="title-work">Selected work</div>
           <div class="window-controls-end">
             <span class="control-dash">—</span>
           </div>
         </div>
 
-        <!-- Window Body -->
-        <div class="window-body about-window-body">
-          <div class="section-header-block">
-            <div class="section-pre-label">ABOUT</div>
-            <h2 class="section-title">A designer who treats small details like they matter.</h2>
-            
-            <div class="about-narrative">
-              <p>
-                I craft user-centered digital experiences, bridging user needs and business goals through research, wireframing and prototyping.
-              </p>
-              <p>
-                I have a genuine love for typography and bold visuals that feel polished, expressive and human.
-              </p>
-              <p>
-                Currently exploring UI/UX design systems, branding and visual design through personal projects and collaboration.
-              </p>
-            </div>
-          </div>
-
-          <!-- Teal Info Strip -->
-          <div class="teal-info-strip" role="region" aria-label="Quick bio highlights">
-            <span class="info-token"><strong class="token-key">BASED IN</strong> Kolkata</span>
-            <span class="info-dot">·</span>
-            <span class="info-token"><strong class="token-key">EMAIL</strong> <a href="mailto:sohanxpal18@gmail.com" class="token-link">sohanxpal18@gmail.com</a></span>
-            <span class="info-dot">·</span>
-            <span class="info-token"><strong class="token-key">STATUS</strong> Open to work</span>
-            <span class="info-dot">·</span>
-            <span class="info-token"><strong class="token-key">FOCUS</strong> UI/UX · Visual Design · Branding</span>
-          </div>
-
-          <!-- Timeline Section -->
-          <div class="timeline-section">
-            <h3 class="timeline-heading">Timeline.</h3>
-            
-            <div class="timeline-list">
-              
-              <!-- Timeline Item 1 -->
-              <div class="timeline-row">
-                <div class="timeline-time">2026</div>
-                <div class="timeline-content">
-                  <h4 class="timeline-role">UXopia 3.0 Winner</h4>
-                  <p class="timeline-desc">Designed and prototyped a platform for AOT communities and students to share events and notices within 2 hrs.</p>
-                  <span class="timeline-org">IEI Students' Chapter of CSBS, AOT</span>
-                </div>
-              </div>
-
-              <!-- Timeline Item 2 -->
-              <div class="timeline-row">
-                <div class="timeline-time">2025</div>
-                <div class="timeline-content">
-                  <h4 class="timeline-role">UI Heist · Top 8</h4>
-                  <p class="timeline-desc">Designed and prototyped a Spotify-based fitness app within 3 hrs.</p>
-                  <span class="timeline-org">Resoucio Community</span>
-                </div>
-              </div>
-
-              <!-- Timeline Item 3 -->
-              <div class="timeline-row">
-                <div class="timeline-time">2025</div>
-                <div class="timeline-content">
-                  <h4 class="timeline-role">Design team core member</h4>
-                  <p class="timeline-desc">Bold posters and social content for events, fests and seminars for 600+ students.</p>
-                  <span class="timeline-org">IEI Students' Chapter of CSE, AOT</span>
-                </div>
-              </div>
-
-              <!-- Timeline Item 4 -->
-              <div class="timeline-row">
-                <div class="timeline-time">2024</div>
-                <div class="timeline-content">
-                  <h4 class="timeline-role">Logo design and social media management</h4>
-                  <p class="timeline-desc">Logo and content for a new game dev page, generating 1.7k+ views.</p>
-                  <span class="timeline-org">XP bar</span>
-                </div>
-              </div>
-
-              <!-- Timeline Item 5 -->
-              <div class="timeline-row">
-                <div class="timeline-time">2024</div>
-                <div class="timeline-content">
-                  <h4 class="timeline-role">Lead Designer</h4>
-                  <p class="timeline-desc">Led a small design team on brand identity and merch for a local business.</p>
-                  <span class="timeline-org">Urban Fynix</span>
-                </div>
-              </div>
-
-            </div>
-          </div>
-
+        <!-- Window Tab Navigation -->
+        <div class="window-tabs-bar" role="tablist">
+          <button type="button" class="tab-btn active" role="tab" aria-selected="true" data-tab-group="work" data-tab-target="tab-projects">Projects</button>
+          <button type="button" class="tab-btn" role="tab" aria-selected="false" data-tab-group="work" data-tab-target="tab-testimonials">Testimonials</button>
         </div>
 
+        <div class="window-body scrollable-body">
+          <!-- Tab 1: Projects -->
+          <div class="tab-pane active" id="tab-projects" role="tabpanel">
+            <div class="section-header-block">
+              <div class="section-pre-label">INDEX · 4 PROJECTS</div>
+              <h2 class="section-title">Selected work.</h2>
+              <p class="section-desc">
+                A small archive of things I've made: student briefs, concept work and the occasional client project.
+              </p>
+            </div>
+            <div class="work-divider"></div>
+            <div class="projects-list" id="projectsContainer"></div>
+          </div>
+
+          <!-- Tab 2: Testimonials -->
+          <div class="tab-pane" id="tab-testimonials" role="tabpanel">
+            <div class="section-header-block">
+              <div class="section-pre-label">KIND WORDS</div>
+              <h2 class="section-title">Testimonials.</h2>
+            </div>
+            <div class="testimonials-grid" id="testimonialsContainer"></div>
+          </div>
+        </div>
       </div>
-    </section>
 
-    <!-- 4. Creative Stack Window ("bag.inventory") -->
-    <section class="section-container" id="stack" aria-label="Creative Stack">
-      <div class="window-frame">
-        
-        <!-- Window Title Bar -->
-        <div class="window-titlebar">
+      <!-- ===================================================================
+           WINDOW 3: ABOUT ME WINDOW (About.txt)
+           Tabs: [About] [Timeline] [Creative stack]
+           =================================================================== -->
+      <div class="os-window window-about" id="win-about" role="dialog" aria-labelledby="title-about" data-window-id="about" style="display: none;">
+        <div class="window-titlebar" data-drag-handle="true">
           <div class="window-controls">
-            <span class="control-dot"></span>
-            <span class="control-dot"></span>
+            <button type="button" class="control-btn btn-close" data-action="close" aria-label="Close window" title="Close">✕</button>
+            <button type="button" class="control-btn btn-minimize" data-action="minimize" aria-label="Minimize window" title="Minimize">−</button>
           </div>
-          <div class="window-title">bag.inventory</div>
-          <div class="window-controls-end">
-            <span class="inventory-counter">inventory: 18 items</span>
-          </div>
-        </div>
-
-        <!-- Window Body -->
-        <div class="window-body stack-window-body">
-          <div class="section-header-block">
-            <div class="section-pre-label">WHAT'S IN MY BAG</div>
-            <h2 class="section-title">Creative stack.</h2>
-          </div>
-
-          <!-- 2x2 Grid of Category Cards -->
-          <div class="stack-grid">
-            
-            <!-- Category 1: DESIGN (Cream Fill) -->
-            <div class="stack-card stack-card-cream">
-              <div class="stack-card-label">DESIGN</div>
-              <div class="stack-chips-wrap">
-                <span class="stack-chip">UI Design</span>
-                <span class="stack-chip">UX Research</span>
-                <span class="stack-chip">Wireframing</span>
-                <span class="stack-chip">Prototyping</span>
-                <span class="stack-chip">Design Systems</span>
-              </div>
-            </div>
-
-            <!-- Category 2: VISUAL (Pale Teal Fill) -->
-            <div class="stack-card stack-card-teal">
-              <div class="stack-card-label">VISUAL</div>
-              <div class="stack-chips-wrap">
-                <span class="stack-chip">Branding</span>
-                <span class="stack-chip">Typography</span>
-                <span class="stack-chip">Editorial</span>
-                <span class="stack-chip">Illustration</span>
-              </div>
-            </div>
-
-            <!-- Category 3: TOOLS (Pale Teal Fill) -->
-            <div class="stack-card stack-card-teal">
-              <div class="stack-card-label">TOOLS</div>
-              <div class="stack-chips-wrap">
-                <span class="stack-chip">Figma</span>
-                <span class="stack-chip">Illustrator</span>
-                <span class="stack-chip">Photoshop</span>
-                <span class="stack-chip">Framer</span>
-                <span class="stack-chip">Premiere Pro</span>
-              </div>
-            </div>
-
-            <!-- Category 4: CODE (Cream Fill) -->
-            <div class="stack-card stack-card-cream">
-              <div class="stack-card-label">CODE</div>
-              <div class="stack-chips-wrap">
-                <span class="stack-chip">HTML / CSS</span>
-                <span class="stack-chip">Tailwind</span>
-                <span class="stack-chip">React (basics)</span>
-                <span class="stack-chip">Framer Motion</span>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- 5. Testimonials Window ("inbox.txt") -->
-    <section class="section-container" id="testimonials" aria-label="Testimonials">
-      <div class="window-frame">
-        
-        <!-- Window Title Bar -->
-        <div class="window-titlebar">
-          <div class="window-controls">
-            <span class="control-dot"></span>
-            <span class="control-dot"></span>
-          </div>
-          <div class="window-title">inbox.txt</div>
+          <div class="window-title" id="title-about">About.txt</div>
           <div class="window-controls-end">
             <span class="control-dash">—</span>
           </div>
         </div>
 
-        <!-- Window Body -->
-        <div class="window-body testimonials-window-body">
-          <div class="section-header-block">
-            <div class="section-pre-label">KIND WORDS</div>
-            <h2 class="section-title">Testimonials.</h2>
-          </div>
-
-          <!-- 3 Pinned Note Cards -->
-          <div class="testimonials-grid">
-            
-            <!-- Note 1 (Cream Fill, -1.5deg tilt) -->
-            <div class="testimonial-card note-cream tilt-neg">
-              <div class="note-quote-glyph" aria-hidden="true">“</div>
-              <p class="note-quote">
-                Sohan has the rare ability to turn fuzzy product ideas into interfaces that immediately feel obvious. A joy to collaborate with.
-              </p>
-              <div class="note-footer">
-                <strong class="note-author">Maya Iyer</strong>
-                <span class="note-org">Foglamp Studio</span>
-              </div>
-            </div>
-
-            <!-- Note 2 (Pale Teal Fill, +1deg tilt) -->
-            <div class="testimonial-card note-teal tilt-pos">
-              <div class="note-quote-glyph" aria-hidden="true">“</div>
-              <p class="note-quote">
-                As the Convenor of the IEI Students' Chapter (CSE) at AOT, I highly recommend Sohan. He is an exceptionally hardworking and creative designer who consistently elevated our chapter's visual presence. Sohan brings fresh ideas to every project and delivers outstanding results with strong dedication. He is a valuable asset to any team.
-              </p>
-              <div class="note-footer">
-                <strong class="note-author">Sukrit Deb</strong>
-                <span class="note-org">Convenor, SCCSE</span>
-              </div>
-            </div>
-
-            <!-- Note 3 (Peach Fill, -0.5deg tilt) -->
-            <div class="testimonial-card note-peach tilt-subtle">
-              <div class="note-quote-glyph" aria-hidden="true">“</div>
-              <p class="note-quote">
-                Calm, considerate and opinionated when it matters. Easily one of the most delightful people I've worked with in the past two years.
-              </p>
-              <div class="note-footer">
-                <strong class="note-author">Shramana Bandyopadhyay</strong>
-                <span class="note-org">Core member, SCCSE</span>
-              </div>
-            </div>
-
-          </div>
+        <!-- Window Tab Navigation -->
+        <div class="window-tabs-bar" role="tablist">
+          <button type="button" class="tab-btn active" role="tab" aria-selected="true" data-tab-group="about" data-tab-target="tab-about-bio">About</button>
+          <button type="button" class="tab-btn" role="tab" aria-selected="false" data-tab-group="about" data-tab-target="tab-timeline">Timeline</button>
+          <button type="button" class="tab-btn" role="tab" aria-selected="false" data-tab-group="about" data-tab-target="tab-stack">Creative stack</button>
         </div>
 
-      </div>
-    </section>
+        <div class="window-body scrollable-body">
+          <!-- Tab 1: About Bio -->
+          <div class="tab-pane active" id="tab-about-bio" role="tabpanel">
+            <div class="section-header-block">
+              <div class="section-pre-label">ABOUT</div>
+              <h2 class="section-title">A designer who treats small details like they matter.</h2>
+              <div class="about-narrative">
+                <p>I craft user-centered digital experiences, bridging user needs and business goals through research, wireframing and prototyping.</p>
+                <p>I have a genuine love for typography and bold visuals that feel polished, expressive and human.</p>
+                <p>Currently exploring UI/UX design systems, branding and visual design through personal projects and collaboration.</p>
+              </div>
+            </div>
 
-    <!-- 6. Contact Window ("Say hi") -->
-    <section class="section-container" id="contact" aria-label="Contact Section">
-      <div class="window-frame">
-        
-        <!-- Window Title Bar -->
-        <div class="window-titlebar">
-          <div class="window-controls">
-            <span class="control-dot"></span>
-            <span class="control-dot"></span>
+            <!-- Teal Info Strip -->
+            <div class="teal-info-strip" role="region" aria-label="Quick bio highlights">
+              <span class="info-token"><strong class="token-key">BASED IN</strong> Kolkata</span>
+              <span class="info-dot">·</span>
+              <span class="info-token"><strong class="token-key">EMAIL</strong> <a href="mailto:sohanxpal18@gmail.com" class="token-link">sohanxpal18@gmail.com</a></span>
+              <span class="info-dot">·</span>
+              <span class="info-token"><strong class="token-key">STATUS</strong> Open to work</span>
+              <span class="info-dot">·</span>
+              <span class="info-token"><strong class="token-key">FOCUS</strong> UI/UX · Visual Design · Branding</span>
+            </div>
           </div>
-          <div class="window-title">Say hi</div>
+
+          <!-- Tab 2: Timeline -->
+          <div class="tab-pane" id="tab-timeline" role="tabpanel">
+            <div class="timeline-section">
+              <h3 class="timeline-heading">Timeline.</h3>
+              <div class="timeline-list" id="timelineContainer"></div>
+            </div>
+          </div>
+
+          <!-- Tab 3: Creative Stack -->
+          <div class="tab-pane" id="tab-stack" role="tabpanel">
+            <div class="section-header-block">
+              <div class="section-pre-label">WHAT'S IN MY BAG · 18 ITEMS</div>
+              <h2 class="section-title">Creative stack.</h2>
+            </div>
+            <div class="stack-grid" id="stackContainer"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================================================================
+           WINDOW 4: CONTACT WINDOW (Say hi)
+           =================================================================== -->
+      <div class="os-window window-contact" id="win-contact" role="dialog" aria-labelledby="title-contact" data-window-id="contact" style="display: none;">
+        <div class="window-titlebar" data-drag-handle="true">
+          <div class="window-controls">
+            <button type="button" class="control-btn btn-close" data-action="close" aria-label="Close window" title="Close">✕</button>
+            <button type="button" class="control-btn btn-minimize" data-action="minimize" aria-label="Minimize window" title="Minimize">−</button>
+          </div>
+          <div class="window-title" id="title-contact">Say hi</div>
           <div class="window-controls-end">
             <span class="control-dash">—</span>
           </div>
         </div>
 
-        <!-- Window Body -->
-        <div class="window-body contact-window-body">
+        <div class="window-body scrollable-body">
           <div class="section-header-block">
             <div class="section-pre-label">CONTACT</div>
             <h2 class="section-title">Say hi.</h2>
@@ -584,10 +356,8 @@
           </div>
 
           <div class="contact-columns-grid">
-            
-            <!-- Left Contact Info Column -->
+            <!-- Left Info Column -->
             <div class="contact-info-col">
-              
               <div class="info-block">
                 <span class="info-block-label">EMAIL</span>
                 <div class="email-copy-wrapper">
@@ -624,13 +394,11 @@
                   <li><a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram ↗</a></li>
                 </ul>
               </div>
-
             </div>
 
-            <!-- Right Contact Form Column -->
+            <!-- Right Form Column -->
             <div class="contact-form-col">
               <form class="contact-form" id="contactForm" novalidate>
-                
                 <div class="form-group">
                   <label for="userName">Name</label>
                   <input type="text" id="userName" name="name" placeholder="Your name" required autocomplete="name">
@@ -645,7 +413,7 @@
 
                 <div class="form-group">
                   <label for="userMessage">Message</label>
-                  <textarea id="userMessage" name="message" rows="5" placeholder="Tell me about your project, idea, or just say hello..." required></textarea>
+                  <textarea id="userMessage" name="message" rows="4" placeholder="Tell me about your project, idea, or just say hello..." required></textarea>
                   <span class="form-error-msg" id="messageError">Please enter a message.</span>
                 </div>
 
@@ -658,38 +426,160 @@
                     </svg>
                   </button>
                 </div>
-
                 <div class="form-status-alert" id="formStatusAlert" role="alert" aria-live="polite"></div>
-
               </form>
             </div>
-
           </div>
+        </div>
+      </div>
 
+      <!-- ===================================================================
+           WINDOW 5: LINKS WINDOW (Socials)
+           =================================================================== -->
+      <div class="os-window window-links" id="win-links" role="dialog" aria-labelledby="title-links" data-window-id="links" style="display: none;">
+        <div class="window-titlebar" data-drag-handle="true">
+          <div class="window-controls">
+            <button type="button" class="control-btn btn-close" data-action="close" aria-label="Close window" title="Close">✕</button>
+            <button type="button" class="control-btn btn-minimize" data-action="minimize" aria-label="Minimize window" title="Minimize">−</button>
+          </div>
+          <div class="window-title" id="title-links">Links</div>
+          <div class="window-controls-end">
+            <span class="control-dash">—</span>
+          </div>
         </div>
 
-      </div>
-    </section>
+        <div class="window-body">
+          <div class="section-header-block">
+            <div class="section-pre-label">NETWORK · SOCIALS</div>
+            <h2 class="section-title">Elsewhere.</h2>
+            <p class="section-desc">Find my design experiments, open-source work, and daily creative updates across the web.</p>
+          </div>
 
-    <!-- 6. Outlined Footer Bar -->
-    <footer class="bottom-footer-bar" role="contentinfo">
-      <div class="footer-left">
-        © 2026 Sohan Pal
+          <div class="links-buttons-grid">
+            <a href="https://behance.net" target="_blank" rel="noopener noreferrer" class="link-btn-card">
+              <span class="link-btn-tag">Be</span>
+              <span class="link-btn-name">Behance</span>
+              <span class="link-btn-arrow">↗</span>
+            </a>
+            <a href="https://dribbble.com" target="_blank" rel="noopener noreferrer" class="link-btn-card">
+              <span class="link-btn-tag">Dr</span>
+              <span class="link-btn-name">Dribbble</span>
+              <span class="link-btn-arrow">↗</span>
+            </a>
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="link-btn-card">
+              <span class="link-btn-tag">In</span>
+              <span class="link-btn-name">Instagram</span>
+              <span class="link-btn-arrow">↗</span>
+            </a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="link-btn-card">
+              <span class="link-btn-tag">Li</span>
+              <span class="link-btn-name">LinkedIn</span>
+              <span class="link-btn-arrow">↗</span>
+            </a>
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="link-btn-card">
+              <span class="link-btn-tag">Gi</span>
+              <span class="link-btn-name">GitHub</span>
+              <span class="link-btn-arrow">↗</span>
+            </a>
+          </div>
+        </div>
       </div>
-      <div class="footer-right">
-        <a href="#home" class="btn-back-to-top" id="btnBackToTop">
-          Back to top ↑
-        </a>
-      </div>
-    </footer>
+
+    </div>
+
+    <!-- Right Folder & Shortcut Icons Column (5 Icons) -->
+    <aside class="desktop-icons-col" id="desktopIconsCol" aria-label="Desktop folders and shortcuts">
+      
+      <!-- 1. Work (Folder icon) -->
+      <button type="button" class="desktop-icon-btn nav-window-trigger" data-target="work" aria-label="Open Work folder">
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+          </svg>
+        </div>
+        <span class="icon-label">Work</span>
+      </button>
+
+      <!-- 2. About me (Folder icon) -->
+      <button type="button" class="desktop-icon-btn nav-window-trigger" data-target="about" aria-label="Open About me folder">
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+            <circle cx="13" cy="13" r="2"/>
+          </svg>
+        </div>
+        <span class="icon-label">About me</span>
+      </button>
+
+      <!-- 3. Contact (Mail icon) -->
+      <button type="button" class="desktop-icon-btn nav-window-trigger" data-target="contact" aria-label="Open Contact window">
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+        </div>
+        <span class="icon-label">Contact</span>
+      </button>
+
+      <!-- 4. Resume (Download icon - direct PDF download) -->
+      <a href="assets/resume.pdf" download="Sohan_Pal_Resume.pdf" class="desktop-icon-btn" aria-label="Download PDF Resume">
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+        </div>
+        <span class="icon-label">Resume</span>
+      </a>
+
+      <!-- 5. Links (Globe icon) -->
+      <button type="button" class="desktop-icon-btn nav-window-trigger" data-target="links" aria-label="Open Links window">
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+        </div>
+        <span class="icon-label">Links</span>
+      </button>
+
+    </aside>
 
   </main>
 
-  <!-- External Projects Data & Application Logic -->
-  <script src="projects.js"></script>
-  <script src="script.js"></script>
+  <!-- HR Mode: Simplified Scrolling 1-Pager (populated dynamically from same data files) -->
+  <div class="hr-container" id="hrContainer" role="main" aria-label="Portfolio (HR view)">
+    <!-- Dynamically rendered by script.js initModeToggle / renderHrMode -->
+  </div>
+
+  <!-- 3. Desktop Taskbar (Outlined Bar at Bottom) -->
+  <footer class="desktop-taskbar" id="desktopTaskbar" role="contentinfo" aria-label="Desktop Taskbar">
+    <div class="taskbar-inner">
+      <!-- Left: Open Window Buttons (Taskbar pills) -->
+      <div class="taskbar-items" id="taskbarItems" aria-label="Open windows">
+        <!-- Dynamically injected via window manager -->
+      </div>
+
+      <!-- Right: Copyright mark -->
+      <div class="taskbar-right">
+        <span class="taskbar-copyright">© 2026 Sohan Pal</span>
+      </div>
+    </div>
+  </footer>
 
   <!-- Custom Square Retro Cursor -->
   <div class="cursor" aria-hidden="true"></div>
+
+  <!-- Shared Data Files -->
+  <script src="projects.js"></script>
+  <script src="testimonials.js"></script>
+  <script src="stack.js"></script>
+  <script src="timeline.js"></script>
+
+  <!-- Application Window Manager & Interactivity -->
+  <script src="script.js"></script>
 </body>
 </html>
