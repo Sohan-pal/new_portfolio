@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="fitGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#121212"/>
+      <stop offset="100%" stop-color="#1E1E24"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Browser/Device Window Wrapper -->
+  <rect width="720" height="450" rx="10" fill="#EFE8D6" stroke="#111111" stroke-width="3"/>
+
+  <!-- Window Header -->
+  <rect width="720" height="38" rx="8" fill="#E2DAC4" stroke="#111111" stroke-width="2"/>
+  <circle cx="22" cy="19" r="6" fill="#E9B7A0" stroke="#111111" stroke-width="1.5"/>
+  <circle cx="38" cy="19" r="6" fill="#F4E295" stroke="#111111" stroke-width="1.5"/>
+  <circle cx="54" cy="19" r="6" fill="#B8D8D3" stroke="#111111" stroke-width="1.5"/>
+  <rect x="130" y="8" width="460" height="22" rx="5" fill="#FAF7EE" stroke="#111111" stroke-width="1.5"/>
+  <text x="360" y="23" font-family="'Space Mono', monospace" font-size="11" fill="#444" text-anchor="middle">spotify-fit.app/session/live-sync</text>
+
+  <!-- Content Canvas -->
+  <g transform="translate(18, 50)">
+    <rect width="684" height="380" rx="8" fill="url(#fitGrad)"/>
+
+    <!-- Left side: Mobile Phone frame representation -->
+    <g transform="translate(45, 25)">
+      <rect width="210" height="330" rx="20" fill="#000" stroke="#333" stroke-width="3"/>
+      <!-- Screen -->
+      <rect x="8" y="10" width="194" height="310" rx="14" fill="#181818"/>
+      <!-- Dynamic island -->
+      <rect x="75" y="16" width="60" height="12" rx="6" fill="#000"/>
+      <!-- Heart rate & BPM -->
+      <text x="22" y="55" font-family="'Space Mono', monospace" font-size="10" fill="#1DB954">● RUNNING SESSION</text>
+      <text x="22" y="85" font-family="'Space Grotesk', sans-serif" font-size="28" font-weight="bold" fill="#FFF">168 <tspan font-size="14" font-weight="normal" fill="#888">BPM</tspan></text>
+      <!-- Soundwave animation bars -->
+      <g transform="translate(22, 105)">
+        <rect x="0" y="15" width="4" height="30" rx="2" fill="#1DB954"/>
+        <rect x="8" y="5" width="4" height="50" rx="2" fill="#1DB954"/>
+        <rect x="16" y="20" width="4" height="20" rx="2" fill="#1DB954"/>
+        <rect x="24" y="0" width="4" height="60" rx="2" fill="#1DB954"/>
+        <rect x="32" y="10" width="4" height="40" rx="2" fill="#1DB954"/>
+        <rect x="40" y="25" width="4" height="10" rx="2" fill="#1DB954"/>
+        <rect x="48" y="5" width="4" height="50" rx="2" fill="#1DB954"/>
+        <rect x="56" y="15" width="4" height="30" rx="2" fill="#1DB954"/>
+        <rect x="64" y="0" width="4" height="60" rx="2" fill="#1DB954"/>
+        <rect x="72" y="18" width="4" height="24" rx="2" fill="#1DB954"/>
+        <rect x="80" y="10" width="4" height="40" rx="2" fill="#1DB954"/>
+        <rect x="88" y="22" width="4" height="16" rx="2" fill="#1DB954"/>
+        <rect x="96" y="5" width="4" height="50" rx="2" fill="#1DB954"/>
+        <rect x="104" y="12" width="4" height="36" rx="2" fill="#1DB954"/>
+        <rect x="112" y="20" width="4" height="20" rx="2" fill="#1DB954"/>
+        <rect x="120" y="2" width="4" height="56" rx="2" fill="#1DB954"/>
+        <rect x="128" y="15" width="4" height="30" rx="2" fill="#1DB954"/>
+        <rect x="136" y="8" width="4" height="44" rx="2" fill="#1DB954"/>
+      </g>
+      <!-- Current track -->
+      <rect x="20" y="180" width="154" height="65" rx="8" fill="#242424"/>
+      <rect x="30" y="190" width="45" height="45" rx="5" fill="#E9B7A0"/>
+      <text x="85" y="208" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="bold" fill="#FFF">Midnight City</text>
+      <text x="85" y="222" font-family="'Space Mono', monospace" font-size="9" fill="#AAA">M83 · 165 BPM</text>
+      
+      <!-- Match score badge -->
+      <rect x="20" y="260" width="154" height="38" rx="8" fill="#1DB954"/>
+      <text x="97" y="284" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="bold" fill="#000" text-anchor="middle">98% CADENCE MATCH</text>
+    </g>
+
+    <!-- Right side: Analytics & Feature highlights -->
+    <g transform="translate(290, 45)">
+      <text x="0" y="25" font-family="'Space Mono', monospace" font-size="12" fill="#1DB954">ALGORITHMIC CADENCE SYNC</text>
+      <text x="0" y="60" font-family="'Space Grotesk', sans-serif" font-size="26" font-weight="bold" fill="#FFF">Run to your own beat.</text>
+      <text x="0" y="88" font-family="'Space Grotesk', sans-serif" font-size="14" fill="#A0A0A0">Syncing Spotify workout playlists to real-time stride pace and heart rate.</text>
+
+      <g transform="translate(0, 115)">
+        <rect width="170" height="90" rx="8" fill="#242424" stroke="#333" stroke-width="1"/>
+        <text x="18" y="30" font-family="'Space Mono', monospace" font-size="11" fill="#777">PACE INTERVALS</text>
+        <text x="18" y="60" font-family="'Space Grotesk', sans-serif" font-size="22" font-weight="bold" fill="#FFF">4'32" /km</text>
+        <text x="18" y="78" font-family="'Space Mono', monospace" font-size="10" fill="#1DB954">↑ Target maintained</text>
+
+        <rect x="185" width="170" height="90" rx="8" fill="#242424" stroke="#333" stroke-width="1"/>
+        <text x="203" y="30" font-family="'Space Mono', monospace" font-size="11" fill="#777">TEMPO BOOST</text>
+        <text x="203" y="60" font-family="'Space Grotesk', sans-serif" font-size="22" font-weight="bold" fill="#E9B7A0">+14% PWR</text>
+        <text x="203" y="78" font-family="'Space Mono', monospace" font-size="10" fill="#BBB">Adaptive queue</text>
+      </g>
+    </g>
+  </g>
+</svg>

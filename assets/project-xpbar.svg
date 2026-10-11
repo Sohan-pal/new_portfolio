@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 450" width="100%" height="100%">
+  <!-- Browser Window Wrapper -->
+  <rect width="720" height="450" rx="10" fill="#EFE8D6" stroke="#111111" stroke-width="3"/>
+
+  <!-- Window Header -->
+  <rect width="720" height="38" rx="8" fill="#E2DAC4" stroke="#111111" stroke-width="2"/>
+  <circle cx="22" cy="19" r="6" fill="#E9B7A0" stroke="#111111" stroke-width="1.5"/>
+  <circle cx="38" cy="19" r="6" fill="#F4E295" stroke="#111111" stroke-width="1.5"/>
+  <circle cx="54" cy="19" r="6" fill="#B8D8D3" stroke="#111111" stroke-width="1.5"/>
+  <rect x="130" y="8" width="460" height="22" rx="5" fill="#FAF7EE" stroke="#111111" stroke-width="1.5"/>
+  <text x="360" y="23" font-family="'Space Mono', monospace" font-size="11" fill="#444" text-anchor="middle">xpbar.community/brand-identity</text>
+
+  <!-- Content Canvas -->
+  <g transform="translate(18, 50)">
+    <rect width="684" height="380" rx="8" fill="#FAF7EE"/>
+
+    <!-- Left Brand Badge / Poster -->
+    <g transform="translate(40, 30)">
+      <rect width="250" height="320" rx="12" fill="#6366F1" stroke="#111" stroke-width="2.5"/>
+      <!-- Inner Retro Game UI -->
+      <rect x="15" y="15" width="220" height="290" rx="8" fill="#4338CA"/>
+      
+      <!-- Pixel art / Retro graphics -->
+      <g transform="translate(55, 45)">
+        <rect x="0" y="0" width="110" height="110" rx="10" fill="#FDE047" stroke="#111" stroke-width="2"/>
+        <text x="55" y="65" font-family="'Space Grotesk', sans-serif" font-size="38" font-weight="900" fill="#111" text-anchor="middle">XP</text>
+        <rect x="15" y="80" width="80" height="12" rx="6" fill="#111"/>
+        <rect x="17" y="82" width="55" height="8" rx="4" fill="#22C55E"/>
+      </g>
+      
+      <text x="125" y="195" font-family="'Space Grotesk', sans-serif" font-size="22" font-weight="bold" fill="#FFF" text-anchor="middle">LEVEL UP GAMING</text>
+      <text x="125" y="220" font-family="'Space Mono', monospace" font-size="11" fill="#C7D2FE" text-anchor="middle">INDIE DEV SPOTLIGHT</text>
+
+      <rect x="35" y="245" width="180" height="36" rx="6" fill="#FAF7EE" stroke="#111" stroke-width="2"/>
+      <text x="125" y="268" font-family="'Space Mono', monospace" font-size="12" font-weight="bold" fill="#111" text-anchor="middle">@XP_BAR · 1.7K REACH</text>
+    </g>
+
+    <!-- Right Side Mockup Cards -->
+    <g transform="translate(320, 30)">
+      <!-- Card 1 -->
+      <rect width="320" height="150" rx="10" fill="#EFE8D6" stroke="#111" stroke-width="2"/>
+      <text x="20" y="32" font-family="'Space Mono', monospace" font-size="11" fill="#777">SOCIAL ASSETS // INSTAGRAM</text>
+      <text x="20" y="60" font-family="'Space Grotesk', sans-serif" font-size="18" font-weight="bold" fill="#111">Carousel Guide: Shader Math</text>
+      <text x="20" y="85" font-family="'Space Grotesk', sans-serif" font-size="13" fill="#555">High-retention visual break-downs of Godot and Unity shaders for indie developers.</text>
+      <rect x="20" y="105" width="90" height="24" rx="4" fill="#B8D8D3" stroke="#111" stroke-width="1.5"/>
+      <text x="65" y="121" font-family="'Space Mono', monospace" font-size="10" font-weight="bold" fill="#111" text-anchor="middle">4.8K LIKES</text>
+
+      <!-- Card 2 -->
+      <g transform="translate(0, 170)">
+        <rect width="320" height="150" rx="10" fill="#EFE8D6" stroke="#111" stroke-width="2"/>
+        <text x="20" y="32" font-family="'Space Mono', monospace" font-size="11" fill="#777">BRAND GUIDELINES // PALETTE</text>
+        <circle cx="35" cy="65" r="15" fill="#6366F1" stroke="#111" stroke-width="1.5"/>
+        <circle cx="75" cy="65" r="15" fill="#FDE047" stroke="#111" stroke-width="1.5"/>
+        <circle cx="115" cy="65" r="15" fill="#22C55E" stroke="#111" stroke-width="1.5"/>
+        <circle cx="155" cy="65" r="15" fill="#111111" stroke="#111" stroke-width="1.5"/>
+        <text x="20" y="112" font-family="'Space Grotesk', sans-serif" font-size="14" font-weight="bold" fill="#111">Arcade Pop Cyberpunk</text>
+        <text x="20" y="130" font-family="'Space Mono', monospace" font-size="11" fill="#555">Custom typography and iconography package</text>
+      </g>
+    </g>
+  </g>
+</svg>

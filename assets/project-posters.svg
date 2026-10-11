@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 450" width="100%" height="100%">
+  <!-- Browser Window Wrapper -->
+  <rect width="720" height="450" rx="10" fill="#EFE8D6" stroke="#111111" stroke-width="3"/>
+
+  <!-- Window Header -->
+  <rect width="720" height="38" rx="8" fill="#E2DAC4" stroke="#111111" stroke-width="2"/>
+  <circle cx="22" cy="19" r="6" fill="#E9B7A0" stroke="#111111" stroke-width="1.5"/>
+  <circle cx="38" cy="19" r="6" fill="#F4E295" stroke="#111111" stroke-width="1.5"/>
+  <circle cx="54" cy="19" r="6" fill="#B8D8D3" stroke="#111111" stroke-width="1.5"/>
+  <rect x="130" y="8" width="460" height="22" rx="5" fill="#FAF7EE" stroke="#111111" stroke-width="1.5"/>
+  <text x="360" y="23" font-family="'Space Mono', monospace" font-size="11" fill="#444" text-anchor="middle">archive.sohanpal.design/posters-2024</text>
+
+  <!-- Content Canvas: Grid of 4 artistic typography posters -->
+  <g transform="translate(18, 50)">
+    <rect width="684" height="380" rx="8" fill="#F3EEDC"/>
+
+    <!-- Poster 1: Swiss Bold Red & Beige -->
+    <g transform="translate(30, 25)">
+      <rect width="135" height="200" rx="4" fill="#E11D48" stroke="#111" stroke-width="2"/>
+      <rect x="10" y="10" width="115" height="180" fill="#FFF1F2"/>
+      <text x="20" y="45" font-family="'Space Grotesk', sans-serif" font-size="28" font-weight="900" fill="#E11D48">SWISS</text>
+      <text x="20" y="72" font-family="'Space Grotesk', sans-serif" font-size="28" font-weight="900" fill="#111">GRID</text>
+      <circle cx="95" cy="120" r="28" fill="#E11D48"/>
+      <rect x="20" y="155" width="75" height="6" fill="#111"/>
+      <rect x="20" y="166" width="50" height="4" fill="#666"/>
+    </g>
+
+    <!-- Poster 2: Brutalist Acid Green & Black -->
+    <g transform="translate(190, 25)">
+      <rect width="135" height="200" rx="4" fill="#0D0D0D" stroke="#111" stroke-width="2"/>
+      <rect x="10" y="10" width="115" height="180" fill="#121212"/>
+      <text x="20" y="38" font-family="'Space Mono', monospace" font-size="11" fill="#84CC16">01 // GLITCH</text>
+      <path d="M 20 60 L 115 60 L 20 90 L 115 90 L 20 120 L 115 120" stroke="#84CC16" stroke-width="3" fill="none"/>
+      <text x="20" y="150" font-family="'Space Grotesk', sans-serif" font-size="18" font-weight="bold" fill="#FFF">CHAOS</text>
+      <text x="20" y="170" font-family="'Space Mono', monospace" font-size="9" fill="#888">SYSTEM CORRUPT</text>
+    </g>
+
+    <!-- Poster 3: Retro Bauhaus Teal & Orange -->
+    <g transform="translate(350, 25)">
+      <rect width="135" height="200" rx="4" fill="#F59E0B" stroke="#111" stroke-width="2"/>
+      <rect x="10" y="10" width="115" height="180" fill="#FEF3C7"/>
+      <circle cx="45" cy="65" r="25" fill="#0D9488"/>
+      <rect x="55" y="75" width="55" height="55" fill="#F59E0B"/>
+      <polygon points="30,150 90,150 60,105" fill="#111"/>
+      <text x="20" y="175" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="bold" fill="#111">FORM · FUNCTION</text>
+    </g>
+
+    <!-- Poster 4: Minimal Monochrome Editorial -->
+    <g transform="translate(510, 25)">
+      <rect width="135" height="200" rx="4" fill="#FFFFFF" stroke="#111" stroke-width="2"/>
+      <rect x="10" y="10" width="115" height="180" fill="#FAF9F6"/>
+      <text x="20" y="40" font-family="'Space Grotesk', sans-serif" font-size="34" font-weight="bold" fill="#111">Aa</text>
+      <line x1="20" y1="55" x2="115" y2="55" stroke="#111" stroke-width="1.5"/>
+      <text x="20" y="80" font-family="'Space Mono', monospace" font-size="8" fill="#444">HELVETICA VS GROTESK</text>
+      <text x="20" y="105" font-family="'Space Mono', monospace" font-size="7" fill="#666">The weight of words.</text>
+      <text x="20" y="117" font-family="'Space Mono', monospace" font-size="7" fill="#666">The measure of space.</text>
+      <rect x="20" y="145" width="85" height="20" fill="#111"/>
+      <text x="62" y="159" font-family="'Space Mono', monospace" font-size="9" fill="#FFF" text-anchor="middle">EXHIBIT '24</text>
+    </g>
+
+    <!-- Bottom summary caption -->
+    <g transform="translate(30, 250)">
+      <rect width="615" height="60" rx="8" fill="#FAF7EE" stroke="#111" stroke-width="1.5"/>
+      <text x="25" y="26" font-family="'Space Grotesk', sans-serif" font-size="14" font-weight="bold" fill="#111">Explorations in Hierarchy, Color Vibration &amp; Form</text>
+      <text x="25" y="45" font-family="'Space Mono', monospace" font-size="11" fill="#666">Physical print tests, screen-printed editions and digital zine contributions.</text>
+    </g>
+  </g>
+</svg>

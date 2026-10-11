@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sohan Pal · Designer &amp; Creative Developer Portfolio</title>
+  <meta name="description" content="Portfolio of Sohan Pal, a UI/UX and visual designer based in Kolkata crafting interfaces, identities, and interactive digital experiences.">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='24' height='24' rx='6' fill='%23E9B7A0'/><text x='12' y='17' font-size='14' font-weight='bold' text-anchor='middle' fill='%23111'>SP</text></svg>">
+
+  <!-- Google Fonts: Space Grotesk & Space Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Ambient Flowing Wave Bands & Grain Overlay -->
+  <div class="ambient-waves" aria-hidden="true">
+    <svg class="wave-canvas" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <!-- Ribbon 1: Sweeping right flank band entering from top and cascading diagonally down -->
+      <path d="M 980 -50 C 1090 120 1250 200 1300 400 C 1360 630 1220 740 1490 950 L 1490 -50 Z" fill="#D3E4DD" />
+      
+      <!-- Ribbon 2: Wide flowing S-curve sweeping from upper-left down across bottom-center -->
+      <path d="M -50 -50 L 260 -50 C 220 160 140 280 200 420 C 280 580 440 640 480 770 C 510 870 420 920 320 950 L -50 950 Z" fill="#D3E4DD" />
+      
+      <!-- Ribbon 3: Bottom right wave ribbon connecting the rhythm -->
+      <path d="M 640 950 C 800 810 1000 740 1180 790 C 1320 830 1410 790 1490 730 L 1490 950 Z" fill="#D3E4DD" />
+    </svg>
+    <div class="grain-overlay"></div>
+  </div>
+
+  <!-- 1. Top Menu Bar (Sticky) -->
+  <header class="top-menu-bar" id="mainHeader">
+    <div class="menu-bar-inner">
+      
+      <!-- Left: Monitor Icon + Navigation Links -->
+      <div class="nav-left">
+        <a href="#home" class="brand-monitor" aria-label="Home page">
+          <svg class="icon-monitor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="14" rx="2"/>
+            <line x1="8" y1="21" x2="16" y2="21"/>
+            <line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+        </a>
+        <nav class="nav-links" id="navLinks" aria-label="Main Navigation">
+          <a href="#home" class="nav-link active" data-section="home">Home</a>
+          <span class="nav-separator">/</span>
+          <a href="#work" class="nav-link" data-section="work">Work</a>
+          <span class="nav-separator">/</span>
+          <a href="#about" class="nav-link" data-section="about">About</a>
+          <span class="nav-separator">/</span>
+          <a href="#contact" class="nav-link" data-section="contact">Contact</a>
+        </nav>
+      </div>
+
+      <!-- Center: Current Section Dynamic Display -->
+      <div class="nav-center" id="currentSectionDisplay" aria-live="polite">
+        Home
+      </div>
+
+      <!-- Right: Live Date & Clock + Let's Talk button -->
+      <div class="nav-right">
+        <div class="nav-datetime" id="headerClock">
+          <span class="clock-date">Sun Oct 11</span>
+          <span class="clock-dot">·</span>
+          <span class="clock-time">01:35 PM</span>
+        </div>
+        <a href="#contact" class="btn-talk" id="btnHeaderTalk">Let's talk</a>
+      </div>
+
+    </div>
+
+    <!-- Scroll Progress Line -->
+    <div class="scroll-progress-container" aria-hidden="true">
+      <div class="scroll-progress-bar" id="scrollProgressBar"></div>
+    </div>
+  </header>
+
+  <!-- Main Content Layout -->
+  <main class="page-container">
+
+    <!-- 2. Hero Desktop Scene -->
+    <section class="hero-section" id="home" aria-label="Desktop Scene">
+      <div class="hero-desktop-grid">
+
+        <!-- Left Widget Panel -->
+        <aside class="widget-panel" aria-label="System status widget">
+          <div class="widget-header">
+            <svg class="icon-widget-screen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2"/>
+              <line x1="8" y1="21" x2="16" y2="21"/>
+              <line x1="12" y1="17" x2="12" y2="21"/>
+            </svg>
+          </div>
+
+          <!-- Large Live Clock -->
+          <div class="widget-clock" id="widgetClock">
+            <span class="widget-time-digits">01:35</span>
+            <span class="widget-time-period">PM</span>
+          </div>
+
+          <!-- Resource / Vibe Gauges -->
+          <div class="widget-gauges">
+            <div class="gauge-item">
+              <div class="gauge-meta">
+                <span class="gauge-name">vol</span>
+                <span class="gauge-val">/ 80%</span>
+              </div>
+              <div class="gauge-track">
+                <div class="gauge-fill" style="width: 80%;"></div>
+              </div>
+            </div>
+
+            <div class="gauge-item">
+              <div class="gauge-meta">
+                <span class="gauge-name">cpu</span>
+                <span class="gauge-val">/ coffee</span>
+              </div>
+              <div class="gauge-track">
+                <div class="gauge-fill" style="width: 68%;"></div>
+              </div>
+            </div>
+
+            <div class="gauge-item">
+              <div class="gauge-meta">
+                <span class="gauge-name">ram</span>
+                <span class="gauge-val">/ ideas</span>
+              </div>
+              <div class="gauge-track">
+                <div class="gauge-fill" style="width: 92%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="widget-divider"></div>
+
+          <!-- Now Playing Status -->
+          <div class="widget-now-playing">
+            <button class="now-playing-toggle" id="btnAudioToggle" aria-label="Toggle playback animation" title="Play / Pause">
+              <svg class="icon-play-state" id="audioIcon" viewBox="0 0 24 24" fill="currentColor">
+                <rect x="6" y="4" width="4" height="16" rx="1"/>
+                <rect x="14" y="4" width="4" height="16" rx="1"/>
+              </svg>
+            </button>
+            <div class="now-playing-text">
+              <span class="now-playing-label">NOW PLAYING:</span>
+              <span class="now-playing-song">A little design, a lot of coffee.</span>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Center Teal Hero Window -->
+        <article class="hero-window window-frame" aria-label="Welcome Window">
+          <!-- Window Title Bar -->
+          <div class="window-titlebar">
+            <div class="window-controls">
+              <span class="control-dot"></span>
+              <span class="control-dot"></span>
+            </div>
+            <div class="window-title">/home/sohan: portfolio.exe</div>
+            <div class="window-controls-end">
+              <span class="control-dash">—</span>
+            </div>
+          </div>
+
+          <!-- Window Inner Surface (Pale Teal) -->
+          <div class="window-body hero-teal-body">
+            
+            <!-- Address Bar / URL Bar -->
+            <div class="address-bar-pill">
+              <span class="address-text">sohanpal.design / welcome</span>
+              <span class="cursor-block" aria-hidden="true">█</span>
+            </div>
+
+            <!-- Inner Welcome Card -->
+            <div class="inner-welcome-card">
+              <div class="badge-label">WELCOME!</div>
+              <h1 class="hero-heading">Crafting designs that interact and engage.</h1>
+              <p class="hero-intro">
+                I'm Sohan Pal, a designer based in Kolkata. I make interfaces, identities and the small motion in between.
+              </p>
+              <div class="hero-actions">
+                <a href="#work" class="btn btn-peach">View Work</a>
+                <a href="#contact" class="btn btn-peach">Contact Me</a>
+              </div>
+            </div>
+
+          </div>
+        </article>
+
+        <!-- Right Desktop Icons Column -->
+        <aside class="desktop-icons-col" aria-label="Desktop shortcut icons">
+          
+          <a href="#home" class="desktop-icon desktop-icon-item" title="Jump to top">
+            <div class="icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="3" width="20" height="14" rx="2"/>
+                <line x1="8" y1="21" x2="16" y2="21"/>
+                <line x1="12" y1="17" x2="12" y2="21"/>
+              </svg>
+            </div>
+            <span class="icon-label">Desktop</span>
+          </a>
+
+          <a href="assets/resume.pdf" download="Sohan_Pal_Resume.pdf" class="desktop-icon desktop-icon-item" title="Download Resume">
+            <div class="icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                <line x1="12" y1="11" x2="12" y2="17"/>
+                <polyline points="9 14 12 17 15 14"/>
+              </svg>
+            </div>
+            <span class="icon-label">Downloads</span>
+          </a>
+
+          <a href="#work" class="desktop-icon desktop-icon-item" title="Browse projects">
+            <div class="icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="2" y1="12" x2="22" y2="12"/>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+              </svg>
+            </div>
+            <span class="icon-label">Internet</span>
+          </a>
+
+          <a href="#about" class="desktop-icon desktop-icon-item" title="Read About Me">
+            <div class="icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="16" rx="3"/>
+                <circle cx="9" cy="10" r="2"/>
+                <line x1="15" y1="8" x2="17" y2="8"/>
+                <line x1="15" y1="12" x2="17" y2="12"/>
+                <path d="M7 16c0-1.5 1-2.5 2.5-2.5s2.5 1 2.5 2.5"/>
+              </svg>
+            </div>
+            <span class="icon-label">My Life</span>
+          </a>
+
+        </aside>
+
+      </div>
+
+      <!-- Dock of Pills & Scroll Caption -->
+      <div class="hero-dock-wrapper">
+        <div class="dock-pill-container" aria-label="Social media links">
+          <a href="https://behance.net" target="_blank" rel="noopener noreferrer" class="dock-pill" title="Behance">Be</a>
+          <a href="https://dribbble.com" target="_blank" rel="noopener noreferrer" class="dock-pill" title="Dribbble">Dr</a>
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="dock-pill" title="Instagram">In</a>
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="dock-pill" title="LinkedIn">Li</a>
+          <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="dock-pill" title="GitHub">Gi</a>
+        </div>
+        <div class="scroll-explore-caption">
+          <span>Scroll to explore</span>
+          <span class="scroll-arrow" aria-hidden="true">↓</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Work Window ("Selected work") -->
+    <section class="section-container" id="work" aria-label="Selected Work">
+      <div class="window-frame">
+        
+        <!-- Window Title Bar -->
+        <div class="window-titlebar">
+          <div class="window-controls">
+            <span class="control-dot"></span>
+            <span class="control-dot"></span>
+          </div>
+          <div class="window-title">Selected work</div>
+          <div class="window-controls-end">
+            <span class="control-dash">—</span>
+          </div>
+        </div>
+
+        <!-- Window Body -->
+        <div class="window-body work-window-body">
+          <div class="section-header-block">
+            <div class="section-pre-label">INDEX · 4 PROJECTS</div>
+            <h2 class="section-title">Selected work.</h2>
+            <p class="section-desc">
+              A small archive of things I've made: student briefs, concept work and the occasional client project.
+            </p>
+          </div>
+
+          <div class="work-divider"></div>
+
+          <!-- Dynamic Project Rows Container -->
+          <div class="projects-list" id="projectsContainer">
+            <!-- Dynamically injected from projects.js -->
+            <noscript>
+              <p>Please enable JavaScript to view selected projects.</p>
+            </noscript>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 4. About Window ("About.txt") -->
+    <section class="section-container" id="about" aria-label="About Me">
+      <div class="window-frame">
+        
+        <!-- Window Title Bar -->
+        <div class="window-titlebar">
+          <div class="window-controls">
+            <span class="control-dot"></span>
+            <span class="control-dot"></span>
+          </div>
+          <div class="window-title">About.txt</div>
+          <div class="window-controls-end">
+            <span class="control-dash">—</span>
+          </div>
+        </div>
+
+        <!-- Window Body -->
+        <div class="window-body about-window-body">
+          <div class="section-header-block">
+            <div class="section-pre-label">ABOUT</div>
+            <h2 class="section-title">A designer who treats small details like they matter.</h2>
+            
+            <div class="about-narrative">
+              <p>
+                I craft user-centered digital experiences, bridging user needs and business goals through research, wireframing and prototyping.
+              </p>
+              <p>
+                I have a genuine love for typography and bold visuals that feel polished, expressive and human.
+              </p>
+              <p>
+                Currently exploring UI/UX design systems, branding and visual design through personal projects and collaboration.
+              </p>
+            </div>
+          </div>
+
+          <!-- Teal Info Strip -->
+          <div class="teal-info-strip" role="region" aria-label="Quick bio highlights">
+            <span class="info-token"><strong class="token-key">BASED IN</strong> Kolkata</span>
+            <span class="info-dot">·</span>
+            <span class="info-token"><strong class="token-key">EMAIL</strong> <a href="mailto:sohanxpal18@gmail.com" class="token-link">sohanxpal18@gmail.com</a></span>
+            <span class="info-dot">·</span>
+            <span class="info-token"><strong class="token-key">STATUS</strong> Open to work</span>
+            <span class="info-dot">·</span>
+            <span class="info-token"><strong class="token-key">FOCUS</strong> UI/UX · Visual Design · Branding</span>
+          </div>
+
+          <!-- Timeline Section -->
+          <div class="timeline-section">
+            <h3 class="timeline-heading">Timeline.</h3>
+            
+            <div class="timeline-list">
+              
+              <!-- Timeline Item 1 -->
+              <div class="timeline-row">
+                <div class="timeline-time">2026</div>
+                <div class="timeline-content">
+                  <h4 class="timeline-role">UXopia 3.0 Winner</h4>
+                  <p class="timeline-desc">Designed and prototyped a platform for AOT communities and students to share events and notices within 2 hrs.</p>
+                  <span class="timeline-org">IEI Students' Chapter of CSBS, AOT</span>
+                </div>
+              </div>
+
+              <!-- Timeline Item 2 -->
+              <div class="timeline-row">
+                <div class="timeline-time">2025</div>
+                <div class="timeline-content">
+                  <h4 class="timeline-role">UI Heist · Top 8</h4>
+                  <p class="timeline-desc">Designed and prototyped a Spotify-based fitness app within 3 hrs.</p>
+                  <span class="timeline-org">Resoucio Community</span>
+                </div>
+              </div>
+
+              <!-- Timeline Item 3 -->
+              <div class="timeline-row">
+                <div class="timeline-time">2025</div>
+                <div class="timeline-content">
+                  <h4 class="timeline-role">Design team core member</h4>
+                  <p class="timeline-desc">Bold posters and social content for events, fests and seminars for 600+ students.</p>
+                  <span class="timeline-org">IEI Students' Chapter of CSE, AOT</span>
+                </div>
+              </div>
+
+              <!-- Timeline Item 4 -->
+              <div class="timeline-row">
+                <div class="timeline-time">2024</div>
+                <div class="timeline-content">
+                  <h4 class="timeline-role">Logo design and social media management</h4>
+                  <p class="timeline-desc">Logo and content for a new game dev page, generating 1.7k+ views.</p>
+                  <span class="timeline-org">XP bar</span>
+                </div>
+              </div>
+
+              <!-- Timeline Item 5 -->
+              <div class="timeline-row">
+                <div class="timeline-time">2024</div>
+                <div class="timeline-content">
+                  <h4 class="timeline-role">Lead Designer</h4>
+                  <p class="timeline-desc">Led a small design team on brand identity and merch for a local business.</p>
+                  <span class="timeline-org">Urban Fynix</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 4. Creative Stack Window ("bag.inventory") -->
+    <section class="section-container" id="stack" aria-label="Creative Stack">
+      <div class="window-frame">
+        
+        <!-- Window Title Bar -->
+        <div class="window-titlebar">
+          <div class="window-controls">
+            <span class="control-dot"></span>
+            <span class="control-dot"></span>
+          </div>
+          <div class="window-title">bag.inventory</div>
+          <div class="window-controls-end">
+            <span class="inventory-counter">inventory: 18 items</span>
+          </div>
+        </div>
+
+        <!-- Window Body -->
+        <div class="window-body stack-window-body">
+          <div class="section-header-block">
+            <div class="section-pre-label">WHAT'S IN MY BAG</div>
+            <h2 class="section-title">Creative stack.</h2>
+          </div>
+
+          <!-- 2x2 Grid of Category Cards -->
+          <div class="stack-grid">
+            
+            <!-- Category 1: DESIGN (Cream Fill) -->
+            <div class="stack-card stack-card-cream">
+              <div class="stack-card-label">DESIGN</div>
+              <div class="stack-chips-wrap">
+                <span class="stack-chip">UI Design</span>
+                <span class="stack-chip">UX Research</span>
+                <span class="stack-chip">Wireframing</span>
+                <span class="stack-chip">Prototyping</span>
+                <span class="stack-chip">Design Systems</span>
+              </div>
+            </div>
+
+            <!-- Category 2: VISUAL (Pale Teal Fill) -->
+            <div class="stack-card stack-card-teal">
+              <div class="stack-card-label">VISUAL</div>
+              <div class="stack-chips-wrap">
+                <span class="stack-chip">Branding</span>
+                <span class="stack-chip">Typography</span>
+                <span class="stack-chip">Editorial</span>
+                <span class="stack-chip">Illustration</span>
+              </div>
+            </div>
+
+            <!-- Category 3: TOOLS (Pale Teal Fill) -->
+            <div class="stack-card stack-card-teal">
+              <div class="stack-card-label">TOOLS</div>
+              <div class="stack-chips-wrap">
+                <span class="stack-chip">Figma</span>
+                <span class="stack-chip">Illustrator</span>
+                <span class="stack-chip">Photoshop</span>
+                <span class="stack-chip">Framer</span>
+                <span class="stack-chip">Premiere Pro</span>
+              </div>
+            </div>
+
+            <!-- Category 4: CODE (Cream Fill) -->
+            <div class="stack-card stack-card-cream">
+              <div class="stack-card-label">CODE</div>
+              <div class="stack-chips-wrap">
+                <span class="stack-chip">HTML / CSS</span>
+                <span class="stack-chip">Tailwind</span>
+                <span class="stack-chip">React (basics)</span>
+                <span class="stack-chip">Framer Motion</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 5. Testimonials Window ("inbox.txt") -->
+    <section class="section-container" id="testimonials" aria-label="Testimonials">
+      <div class="window-frame">
+        
+        <!-- Window Title Bar -->
+        <div class="window-titlebar">
+          <div class="window-controls">
+            <span class="control-dot"></span>
+            <span class="control-dot"></span>
+          </div>
+          <div class="window-title">inbox.txt</div>
+          <div class="window-controls-end">
+            <span class="control-dash">—</span>
+          </div>
+        </div>
+
+        <!-- Window Body -->
+        <div class="window-body testimonials-window-body">
+          <div class="section-header-block">
+            <div class="section-pre-label">KIND WORDS</div>
+            <h2 class="section-title">Testimonials.</h2>
+          </div>
+
+          <!-- 3 Pinned Note Cards -->
+          <div class="testimonials-grid">
+            
+            <!-- Note 1 (Cream Fill, -1.5deg tilt) -->
+            <div class="testimonial-card note-cream tilt-neg">
+              <div class="note-quote-glyph" aria-hidden="true">“</div>
+              <p class="note-quote">
+                Sohan has the rare ability to turn fuzzy product ideas into interfaces that immediately feel obvious. A joy to collaborate with.
+              </p>
+              <div class="note-footer">
+                <strong class="note-author">Maya Iyer</strong>
+                <span class="note-org">Foglamp Studio</span>
+              </div>
+            </div>
+
+            <!-- Note 2 (Pale Teal Fill, +1deg tilt) -->
+            <div class="testimonial-card note-teal tilt-pos">
+              <div class="note-quote-glyph" aria-hidden="true">“</div>
+              <p class="note-quote">
+                As the Convenor of the IEI Students' Chapter (CSE) at AOT, I highly recommend Sohan. He is an exceptionally hardworking and creative designer who consistently elevated our chapter's visual presence. Sohan brings fresh ideas to every project and delivers outstanding results with strong dedication. He is a valuable asset to any team.
+              </p>
+              <div class="note-footer">
+                <strong class="note-author">Sukrit Deb</strong>
+                <span class="note-org">Convenor, SCCSE</span>
+              </div>
+            </div>
+
+            <!-- Note 3 (Peach Fill, -0.5deg tilt) -->
+            <div class="testimonial-card note-peach tilt-subtle">
+              <div class="note-quote-glyph" aria-hidden="true">“</div>
+              <p class="note-quote">
+                Calm, considerate and opinionated when it matters. Easily one of the most delightful people I've worked with in the past two years.
+              </p>
+              <div class="note-footer">
+                <strong class="note-author">Shramana Bandyopadhyay</strong>
+                <span class="note-org">Core member, SCCSE</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 6. Contact Window ("Say hi") -->
+    <section class="section-container" id="contact" aria-label="Contact Section">
+      <div class="window-frame">
+        
+        <!-- Window Title Bar -->
+        <div class="window-titlebar">
+          <div class="window-controls">
+            <span class="control-dot"></span>
+            <span class="control-dot"></span>
+          </div>
+          <div class="window-title">Say hi</div>
+          <div class="window-controls-end">
+            <span class="control-dash">—</span>
+          </div>
+        </div>
+
+        <!-- Window Body -->
+        <div class="window-body contact-window-body">
+          <div class="section-header-block">
+            <div class="section-pre-label">CONTACT</div>
+            <h2 class="section-title">Say hi.</h2>
+            <p class="section-desc">
+              Briefs, internships, collaborations or just nice notes about typography. My inbox is open.
+            </p>
+          </div>
+
+          <div class="contact-columns-grid">
+            
+            <!-- Left Contact Info Column -->
+            <div class="contact-info-col">
+              
+              <div class="info-block">
+                <span class="info-block-label">EMAIL</span>
+                <div class="email-copy-wrapper">
+                  <a href="mailto:sohanxpal18@gmail.com" class="info-email-link">sohanxpal18@gmail.com</a>
+                  <button type="button" class="btn-copy-email" id="btnCopyEmail" aria-label="Copy email address" title="Copy to clipboard">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                    <span class="copy-text-bubble" id="copyBubble">Copied!</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="info-block">
+                <span class="info-block-label">RESUME</span>
+                <a href="assets/resume.pdf" download="Sohan_Pal_Resume.pdf" class="resume-download-link">
+                  Download (PDF)
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                  </svg>
+                </a>
+              </div>
+
+              <div class="info-block">
+                <span class="info-block-label">ELSEWHERE</span>
+                <ul class="elsewhere-links">
+                  <li><a href="https://behance.net" target="_blank" rel="noopener noreferrer">Behance ↗</a></li>
+                  <li><a href="https://dribbble.com" target="_blank" rel="noopener noreferrer">Dribbble ↗</a></li>
+                  <li><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a></li>
+                  <li><a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub ↗</a></li>
+                  <li><a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram ↗</a></li>
+                </ul>
+              </div>
+
+            </div>
+
+            <!-- Right Contact Form Column -->
+            <div class="contact-form-col">
+              <form class="contact-form" id="contactForm" novalidate>
+                
+                <div class="form-group">
+                  <label for="userName">Name</label>
+                  <input type="text" id="userName" name="name" placeholder="Your name" required autocomplete="name">
+                  <span class="form-error-msg" id="nameError">Please enter your name.</span>
+                </div>
+
+                <div class="form-group">
+                  <label for="userEmail">Email</label>
+                  <input type="email" id="userEmail" name="email" placeholder="hello@example.com" required autocomplete="email">
+                  <span class="form-error-msg" id="emailError">Please enter a valid email address.</span>
+                </div>
+
+                <div class="form-group">
+                  <label for="userMessage">Message</label>
+                  <textarea id="userMessage" name="message" rows="5" placeholder="Tell me about your project, idea, or just say hello..." required></textarea>
+                  <span class="form-error-msg" id="messageError">Please enter a message.</span>
+                </div>
+
+                <div class="form-action-row">
+                  <button type="submit" class="btn btn-peach btn-send" id="btnSubmitForm">
+                    <span>Send message</span>
+                    <svg class="icon-send" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <line x1="22" y1="2" x2="11" y2="13"/>
+                      <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                    </svg>
+                  </button>
+                </div>
+
+                <div class="form-status-alert" id="formStatusAlert" role="alert" aria-live="polite"></div>
+
+              </form>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 6. Outlined Footer Bar -->
+    <footer class="bottom-footer-bar" role="contentinfo">
+      <div class="footer-left">
+        © 2026 Sohan Pal
+      </div>
+      <div class="footer-right">
+        <a href="#home" class="btn-back-to-top" id="btnBackToTop">
+          Back to top ↑
+        </a>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- External Projects Data & Application Logic -->
+  <script src="projects.js"></script>
+  <script src="script.js"></script>
+
+  <!-- Custom Square Retro Cursor -->
+  <div class="cursor" aria-hidden="true"></div>
+</body>
+</html>
