@@ -1,40 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sohan Pal · Designer &amp; Creative Developer Portfolio</title>
-  <meta name="description" content="Portfolio of Sohan Pal, a UI/UX and visual designer based in Kolkata crafting interfaces, identities, and interactive digital experiences.">
-  
+  <meta name="description"
+    content="Portfolio of Sohan Pal, a UI/UX and visual designer based in Kolkata crafting interfaces, identities, and interactive digital experiences.">
+
   <!-- Favicon -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='24' height='24' rx='6' fill='%23E9B7A0'/><text x='12' y='17' font-size='14' font-weight='bold' text-anchor='middle' fill='%23111'>SP</text></svg>">
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='24' height='24' rx='6' fill='%23E9B7A0'/><text x='12' y='17' font-size='14' font-weight='bold' text-anchor='middle' fill='%23111'>SP</text></svg>">
 
   <!-- Google Fonts: Space Grotesk & Space Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
+    rel="stylesheet">
 
-  <!-- Mode Flash Prevention (runs before paint) -->
+  <!-- Mode Flash Prevention (runs before paint).
+       Priority: ?mode= in the URL (one-visit override, NOT saved) > saved choice > desktop -->
   <script>
-    (function() {
-      var params = new URLSearchParams(window.location.search);
-      var urlMode = params.get('mode');
+    (function () {
+      var valid = function (m) { return m === 'desktop' || m === 'hr'; };
+      var urlMode = new URLSearchParams(window.location.search).get('mode');
       var stored = null;
-      try { stored = localStorage.getItem('portfolio-mode'); } catch(e) {}
-      var mode = urlMode || stored || 'desktop';
-      if (mode !== 'desktop' && mode !== 'hr') mode = 'desktop';
+      try { stored = localStorage.getItem('portfolio-mode'); } catch (e) { }
+      var mode = valid(urlMode) ? urlMode : (valid(stored) ? stored : 'desktop');
       document.documentElement.setAttribute('data-mode', mode);
-      try { localStorage.setItem('portfolio-mode', mode); } catch(e) {}
     })();
   </script>
 
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
   <!-- Ambient Flowing Wave Bands & Grain Overlay -->
   <div class="ambient-waves" aria-hidden="true">
-    <svg class="wave-canvas" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <svg class="wave-canvas" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice"
+      xmlns="http://www.w3.org/2000/svg">
       <!-- Cream Canvas Base -->
       <rect width="100%" height="100%" fill="#EFE8D6" />
 
@@ -42,7 +48,9 @@
       <path d="M 1020 -50 C 960 160 990 320 1010 460 C 1040 620 1200 720 1480 820 L 1480 -50 Z" fill="#D3E4DD" />
 
       <!-- Ribbon 2: Sweeping wide S-curve ribbon flowing from mid-left across center-bottom -->
-      <path d="M -50 200 C 160 160 260 280 220 440 C 170 620 280 720 480 820 C 580 870 660 920 740 950 L 460 950 C 320 950 240 860 160 760 C 80 660 -10 580 -50 560 Z" fill="#D3E4DD" />
+      <path
+        d="M -50 200 C 160 160 260 280 220 440 C 170 620 280 720 480 820 C 580 870 660 920 740 950 L 460 950 C 320 950 240 860 160 760 C 80 660 -10 580 -50 560 Z"
+        fill="#D3E4DD" />
 
       <!-- Ribbon 3: Bottom-left and bottom swell wave -->
       <path d="M -50 580 C 120 540 260 620 320 760 C 370 880 400 930 460 950 L -50 950 Z" fill="#D3E4DD" />
@@ -62,14 +70,16 @@
   <!-- 1. Top Menu Bar (Outlined Floating Box) -->
   <header class="top-menu-bar" id="mainHeader" role="banner">
     <div class="menu-bar-inner">
-      
+
       <!-- Left: Monitor Icon + Navigation Items -->
       <div class="nav-left">
-        <button type="button" class="brand-monitor nav-window-trigger" data-target="welcome" aria-label="Open Welcome desktop window">
-          <svg class="icon-monitor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2" y="3" width="20" height="14" rx="2"/>
-            <line x1="8" y1="21" x2="16" y2="21"/>
-            <line x1="12" y1="17" x2="12" y2="21"/>
+        <button type="button" class="brand-monitor nav-window-trigger" data-target="welcome"
+          aria-label="Open Welcome desktop window">
+          <svg class="icon-monitor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="14" rx="2" />
+            <line x1="8" y1="21" x2="16" y2="21" />
+            <line x1="12" y1="17" x2="12" y2="21" />
           </svg>
         </button>
         <nav class="nav-links" id="navLinks" aria-label="Desktop Navigation">
@@ -95,11 +105,13 @@
           <span class="clock-dot">·</span>
           <span class="clock-time">01:35 PM</span>
         </div>
-        <button type="button" class="btn-mode-toggle" id="btnModeToggle" aria-label="Switch view mode" title="Switch to HR mode">
+        <button type="button" class="btn-mode-toggle" id="btnModeToggle" aria-label="Switch view mode"
+          title="Switch to HR mode">
           <span class="mode-toggle-icon" id="modeToggleIcon">☰</span>
           <span class="mode-toggle-label" id="modeToggleLabel">HR mode</span>
         </button>
-        <button type="button" class="btn-talk nav-window-trigger" data-target="contact" id="btnHeaderTalk">Let's talk</button>
+        <button type="button" class="btn-talk nav-window-trigger" data-target="contact" id="btnHeaderTalk">Let's
+          talk</button>
       </div>
 
     </div>
@@ -114,10 +126,11 @@
     <!-- Fixed Left Status Widget Panel -->
     <aside class="widget-panel" id="systemWidget" aria-label="System status widget">
       <div class="widget-header">
-        <svg class="icon-widget-screen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="2" y="3" width="20" height="14" rx="2"/>
-          <line x1="8" y1="21" x2="16" y2="21"/>
-          <line x1="12" y1="17" x2="12" y2="21"/>
+        <svg class="icon-widget-screen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="3" width="20" height="14" rx="2" />
+          <line x1="8" y1="21" x2="16" y2="21" />
+          <line x1="12" y1="17" x2="12" y2="21" />
         </svg>
       </div>
 
@@ -164,10 +177,11 @@
 
       <!-- Now Playing Status -->
       <div class="widget-now-playing">
-        <button type="button" class="now-playing-toggle" id="btnAudioToggle" aria-label="Toggle playback animation" title="Play / Pause">
+        <button type="button" class="now-playing-toggle" id="btnAudioToggle" aria-label="Toggle playback animation"
+          title="Play / Pause">
           <svg class="icon-play-state" id="audioIcon" viewBox="0 0 24 24" fill="currentColor">
-            <rect x="6" y="4" width="4" height="16" rx="1"/>
-            <rect x="14" y="4" width="4" height="16" rx="1"/>
+            <rect x="6" y="4" width="4" height="16" rx="1" />
+            <rect x="14" y="4" width="4" height="16" rx="1" />
           </svg>
         </button>
         <div class="now-playing-text">
@@ -183,11 +197,14 @@
       <!-- ===================================================================
            WINDOW 1: WELCOME WINDOW (/home/sohan: portfolio.exe) - OPEN BY DEFAULT
            =================================================================== -->
-      <div class="os-window window-welcome" id="win-welcome" role="dialog" aria-labelledby="title-welcome" data-window-id="welcome" style="z-index: 10;">
+      <div class="os-window window-welcome" id="win-welcome" role="dialog" aria-labelledby="title-welcome"
+        data-window-id="welcome" style="z-index: 10;">
         <div class="window-titlebar" data-drag-handle="true">
           <div class="window-controls">
-            <button type="button" class="control-btn btn-close" data-action="close" aria-label="Close window" title="Close">✕</button>
-            <button type="button" class="control-btn btn-minimize" data-action="minimize" aria-label="Minimize window" title="Minimize">−</button>
+            <button type="button" class="control-btn btn-close" data-action="close" aria-label="Close window"
+              title="Close">✕</button>
+            <button type="button" class="control-btn btn-minimize" data-action="minimize" aria-label="Minimize window"
+              title="Minimize">−</button>
           </div>
           <div class="window-title" id="title-welcome">/home/sohan: portfolio.exe</div>
           <div class="window-controls-end">
@@ -221,11 +238,14 @@
            WINDOW 2: WORK WINDOW (Selected work)
            Tabs: [Projects] [Testimonials]
            =================================================================== -->
-      <div class="os-window window-work" id="win-work" role="dialog" aria-labelledby="title-work" data-window-id="work" style="display: none;">
+      <div class="os-window window-work" id="win-work" role="dialog" aria-labelledby="title-work" data-window-id="work"
+        style="display: none;">
         <div class="window-titlebar" data-drag-handle="true">
           <div class="window-controls">
-            <button type="button" class="control-btn btn-close" data-action="close" aria-label="Close window" title="Close">✕</button>
-            <button type="button" class="control-btn btn-minimize" data-action="minimize" aria-label="Minimize window" title="Minimize">−</button>
+            <button type="button" class="control-btn btn-close" data-action="close" aria-label="Close window"
+              title="Close">✕</button>
+            <button type="button" class="control-btn btn-minimize" data-action="minimize" aria-label="Minimize window"
+              title="Minimize">−</button>
           </div>
           <div class="window-title" id="title-work">Selected work</div>
           <div class="window-controls-end">
@@ -235,8 +255,10 @@
 
         <!-- Window Tab Navigation -->
         <div class="window-tabs-bar" role="tablist">
-          <button type="button" class="tab-btn active" role="tab" aria-selected="true" data-tab-group="work" data-tab-target="tab-projects">Projects</button>
-          <button type="button" class="tab-btn" role="tab" aria-selected="false" data-tab-group="work" data-tab-target="tab-testimonials">Testimonials</button>
+          <button type="button" class="tab-btn active" role="tab" aria-selected="true" data-tab-group="work"
+            data-tab-target="tab-projects">Projects</button>
+          <button type="button" class="tab-btn" role="tab" aria-selected="false" data-tab-group="work"
+            data-tab-target="tab-testimonials">Testimonials</button>
         </div>
 
         <div class="window-body scrollable-body">
@@ -268,11 +290,14 @@
            WINDOW 3: ABOUT ME WINDOW (About.txt)
            Tabs: [About] [Timeline] [Creative stack]
            =================================================================== -->
-      <div class="os-window window-about" id="win-about" role="dialog" aria-labelledby="title-about" data-window-id="about" style="display: none;">
+      <div class="os-window window-about" id="win-about" role="dialog" aria-labelledby="title-about"
+        data-window-id="about" style="display: none;">
         <div class="window-titlebar" data-drag-handle="true">
           <div class="window-controls">
-            <button type="button" class="control-btn btn-close" data-action="close" aria-label="Close window" title="Close">✕</button>
-            <button type="button" class="control-btn btn-minimize" data-action="minimize" aria-label="Minimize window" title="Minimize">−</button>
+            <button type="button" class="control-btn btn-close" data-action="close" aria-label="Close window"
+              title="Close">✕</button>
+            <button type="button" class="control-btn btn-minimize" data-action="minimize" aria-label="Minimize window"
+              title="Minimize">−</button>
           </div>
           <div class="window-title" id="title-about">About.txt</div>
           <div class="window-controls-end">
@@ -282,9 +307,12 @@
 
         <!-- Window Tab Navigation -->
         <div class="window-tabs-bar" role="tablist">
-          <button type="button" class="tab-btn active" role="tab" aria-selected="true" data-tab-group="about" data-tab-target="tab-about-bio">About</button>
-          <button type="button" class="tab-btn" role="tab" aria-selected="false" data-tab-group="about" data-tab-target="tab-timeline">Timeline</button>
-          <button type="button" class="tab-btn" role="tab" aria-selected="false" data-tab-group="about" data-tab-target="tab-stack">Creative stack</button>
+          <button type="button" class="tab-btn active" role="tab" aria-selected="true" data-tab-group="about"
+            data-tab-target="tab-about-bio">About</button>
+          <button type="button" class="tab-btn" role="tab" aria-selected="false" data-tab-group="about"
+            data-tab-target="tab-timeline">Timeline</button>
+          <button type="button" class="tab-btn" role="tab" aria-selected="false" data-tab-group="about"
+            data-tab-target="tab-stack">Creative stack</button>
         </div>
 
         <div class="window-body scrollable-body">
@@ -294,9 +322,11 @@
               <div class="section-pre-label">ABOUT</div>
               <h2 class="section-title">A designer who treats small details like they matter.</h2>
               <div class="about-narrative">
-                <p>I craft user-centered digital experiences, bridging user needs and business goals through research, wireframing and prototyping.</p>
+                <p>I craft user-centered digital experiences, bridging user needs and business goals through research,
+                  wireframing and prototyping.</p>
                 <p>I have a genuine love for typography and bold visuals that feel polished, expressive and human.</p>
-                <p>Currently exploring UI/UX design systems, branding and visual design through personal projects and collaboration.</p>
+                <p>Currently exploring UI/UX design systems, branding and visual design through personal projects and
+                  collaboration.</p>
               </div>
             </div>
 
@@ -304,7 +334,8 @@
             <div class="teal-info-strip" role="region" aria-label="Quick bio highlights">
               <span class="info-token"><strong class="token-key">BASED IN</strong> Kolkata</span>
               <span class="info-dot">·</span>
-              <span class="info-token"><strong class="token-key">EMAIL</strong> <a href="mailto:sohanxpal18@gmail.com" class="token-link">sohanxpal18@gmail.com</a></span>
+              <span class="info-token"><strong class="token-key">EMAIL</strong> <a href="mailto:sohanxpal18@gmail.com"
+                  class="token-link">sohanxpal18@gmail.com</a></span>
               <span class="info-dot">·</span>
               <span class="info-token"><strong class="token-key">STATUS</strong> Open to work</span>
               <span class="info-dot">·</span>
@@ -334,11 +365,14 @@
       <!-- ===================================================================
            WINDOW 4: CONTACT WINDOW (Say hi)
            =================================================================== -->
-      <div class="os-window window-contact" id="win-contact" role="dialog" aria-labelledby="title-contact" data-window-id="contact" style="display: none;">
+      <div class="os-window window-contact" id="win-contact" role="dialog" aria-labelledby="title-contact"
+        data-window-id="contact" style="display: none;">
         <div class="window-titlebar" data-drag-handle="true">
           <div class="window-controls">
-            <button type="button" class="control-btn btn-close" data-action="close" aria-label="Close window" title="Close">✕</button>
-            <button type="button" class="control-btn btn-minimize" data-action="minimize" aria-label="Minimize window" title="Minimize">−</button>
+            <button type="button" class="control-btn btn-close" data-action="close" aria-label="Close window"
+              title="Close">✕</button>
+            <button type="button" class="control-btn btn-minimize" data-action="minimize" aria-label="Minimize window"
+              title="Minimize">−</button>
           </div>
           <div class="window-title" id="title-contact">Say hi</div>
           <div class="window-controls-end">
@@ -362,7 +396,8 @@
                 <span class="info-block-label">EMAIL</span>
                 <div class="email-copy-wrapper">
                   <a href="mailto:sohanxpal18@gmail.com" class="info-email-link">sohanxpal18@gmail.com</a>
-                  <button type="button" class="btn-copy-email" id="btnCopyEmail" aria-label="Copy email address" title="Copy to clipboard">
+                  <button type="button" class="btn-copy-email" id="btnCopyEmail" aria-label="Copy email address"
+                    title="Copy to clipboard">
                     <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
                       <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                       <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
@@ -407,22 +442,25 @@
 
                 <div class="form-group">
                   <label for="userEmail">Email</label>
-                  <input type="email" id="userEmail" name="email" placeholder="hello@example.com" required autocomplete="email">
+                  <input type="email" id="userEmail" name="email" placeholder="hello@example.com" required
+                    autocomplete="email">
                   <span class="form-error-msg" id="emailError">Please enter a valid email address.</span>
                 </div>
 
                 <div class="form-group">
                   <label for="userMessage">Message</label>
-                  <textarea id="userMessage" name="message" rows="4" placeholder="Tell me about your project, idea, or just say hello..." required></textarea>
+                  <textarea id="userMessage" name="message" rows="4"
+                    placeholder="Tell me about your project, idea, or just say hello..." required></textarea>
                   <span class="form-error-msg" id="messageError">Please enter a message.</span>
                 </div>
 
                 <div class="form-action-row">
                   <button type="submit" class="btn btn-peach btn-send" id="btnSubmitForm">
                     <span>Send message</span>
-                    <svg class="icon-send" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <line x1="22" y1="2" x2="11" y2="13"/>
-                      <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                    <svg class="icon-send" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <line x1="22" y1="2" x2="11" y2="13" />
+                      <polygon points="22 2 15 22 11 13 2 9 22 2" />
                     </svg>
                   </button>
                 </div>
@@ -436,11 +474,14 @@
       <!-- ===================================================================
            WINDOW 5: LINKS WINDOW (Socials)
            =================================================================== -->
-      <div class="os-window window-links" id="win-links" role="dialog" aria-labelledby="title-links" data-window-id="links" style="display: none;">
+      <div class="os-window window-links" id="win-links" role="dialog" aria-labelledby="title-links"
+        data-window-id="links" style="display: none;">
         <div class="window-titlebar" data-drag-handle="true">
           <div class="window-controls">
-            <button type="button" class="control-btn btn-close" data-action="close" aria-label="Close window" title="Close">✕</button>
-            <button type="button" class="control-btn btn-minimize" data-action="minimize" aria-label="Minimize window" title="Minimize">−</button>
+            <button type="button" class="control-btn btn-close" data-action="close" aria-label="Close window"
+              title="Close">✕</button>
+            <button type="button" class="control-btn btn-minimize" data-action="minimize" aria-label="Minimize window"
+              title="Minimize">−</button>
           </div>
           <div class="window-title" id="title-links">Links</div>
           <div class="window-controls-end">
@@ -452,7 +493,8 @@
           <div class="section-header-block">
             <div class="section-pre-label">NETWORK · SOCIALS</div>
             <h2 class="section-title">Elsewhere.</h2>
-            <p class="section-desc">Find my design experiments, open-source work, and daily creative updates across the web.</p>
+            <p class="section-desc">Find my design experiments, open-source work, and daily creative updates across the
+              web.</p>
           </div>
 
           <div class="links-buttons-grid">
@@ -489,58 +531,68 @@
 
     <!-- Right Folder & Shortcut Icons Column (5 Icons) -->
     <aside class="desktop-icons-col" id="desktopIconsCol" aria-label="Desktop folders and shortcuts">
-      
+
       <!-- 1. Work (Folder icon) -->
-      <button type="button" class="desktop-icon-btn nav-window-trigger" data-target="work" aria-label="Open Work folder">
+      <button type="button" class="desktop-icon-btn nav-window-trigger" data-target="work"
+        aria-label="Open Work folder">
         <div class="icon-box">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
           </svg>
         </div>
         <span class="icon-label">Work</span>
       </button>
 
       <!-- 2. About me (Folder icon) -->
-      <button type="button" class="desktop-icon-btn nav-window-trigger" data-target="about" aria-label="Open About me folder">
+      <button type="button" class="desktop-icon-btn nav-window-trigger" data-target="about"
+        aria-label="Open About me folder">
         <div class="icon-box">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
-            <circle cx="13" cy="13" r="2"/>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+            <circle cx="13" cy="13" r="2" />
           </svg>
         </div>
         <span class="icon-label">About me</span>
       </button>
 
       <!-- 3. Contact (Mail icon) -->
-      <button type="button" class="desktop-icon-btn nav-window-trigger" data-target="contact" aria-label="Open Contact window">
+      <button type="button" class="desktop-icon-btn nav-window-trigger" data-target="contact"
+        aria-label="Open Contact window">
         <div class="icon-box">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-            <polyline points="22,6 12,13 2,6"/>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+            <polyline points="22,6 12,13 2,6" />
           </svg>
         </div>
         <span class="icon-label">Contact</span>
       </button>
 
       <!-- 4. Resume (Download icon - direct PDF download) -->
-      <a href="assets/resume.pdf" download="Sohan_Pal_Resume.pdf" class="desktop-icon-btn" aria-label="Download PDF Resume">
+      <a href="assets/resume.pdf" download="Sohan_Pal_Resume.pdf" class="desktop-icon-btn"
+        aria-label="Download PDF Resume">
         <div class="icon-box">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-            <polyline points="7 10 12 15 17 10"/>
-            <line x1="12" y1="15" x2="12" y2="3"/>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
           </svg>
         </div>
         <span class="icon-label">Resume</span>
       </a>
 
       <!-- 5. Links (Globe icon) -->
-      <button type="button" class="desktop-icon-btn nav-window-trigger" data-target="links" aria-label="Open Links window">
+      <button type="button" class="desktop-icon-btn nav-window-trigger" data-target="links"
+        aria-label="Open Links window">
         <div class="icon-box">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"/>
-            <line x1="2" y1="12" x2="22" y2="12"/>
-            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="2" y1="12" x2="22" y2="12" />
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
           </svg>
         </div>
         <span class="icon-label">Links</span>
@@ -582,4 +634,5 @@
   <!-- Application Window Manager & Interactivity -->
   <script src="script.js"></script>
 </body>
+
 </html>

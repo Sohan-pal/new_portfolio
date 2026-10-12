@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initCopyEmail();
   initContactForm();
   initMobileBanner();
+  initModeToggle();
   initCustomCursor();
 });
 
@@ -211,7 +212,7 @@ function initWindowManager() {
     { id: "work", title: "Selected work", defaultOpen: false, cascadeIndex: 1 },
     { id: "about", title: "About.txt", defaultOpen: false, cascadeIndex: 2 },
     { id: "contact", title: "Say hi", defaultOpen: false, cascadeIndex: 3 },
-    { id: "links", title: "Socials", defaultOpen: false, cascadeIndex: 4 }
+    { id: "links", title: "Links", defaultOpen: false, cascadeIndex: 4 }
   ];
 
   const windows = {};
@@ -555,6 +556,19 @@ function initWindowManager() {
     const trigger = e.target.closest("[data-target]");
     if (trigger) {
       const targetId = trigger.getAttribute("data-target");
+
+      // HR mode: menu bar shortcuts scroll the one-pager instead of opening windows
+      if (document.documentElement.getAttribute("data-mode") === "hr") {
+        if (targetId === "contact") {
+          e.preventDefault();
+          scrollToEl(document.getElementById("hr-cta"));
+        } else if (targetId === "welcome") {
+          e.preventDefault();
+          scrollToEl(document.getElementById("hrContainer"));
+        }
+        return;
+      }
+
       if (targetId && windows[targetId]) {
         e.preventDefault();
         openWindow(targetId);
@@ -564,9 +578,14 @@ function initWindowManager() {
 
   // Keyboard shortcut: Esc closes front-most window
   window.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && activeWinId && windows[activeWinId]) {
-      closeWindow(activeWinId);
-    }
+    if (e.key !== "Escape" || !activeWinId || !windows[activeWinId]) return;
+    if (document.documentElement.getAttribute("data-mode") === "hr") return;
+
+    // Don't close a window while the visitor is typing in a form field
+    const tag = (document.activeElement && document.activeElement.tagName) || "";
+    if (tag === "INPUT" || tag === "TEXTAREA") return;
+
+    closeWindow(activeWinId);
   });
 
   // Initial display setup
@@ -724,17 +743,18 @@ function initContactForm() {
 
     try {
       let responseOk = true;
-      if (CONTACT_FORM_ENDPOINT && !CONTACT_FORM_ENDPOINT.includes("xyzyqazb")) {
-        const res = await fetch(CONTACT_FORM_ENDPOINT, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", "Accept": "application/json" },
-          body: JSON.stringify(formData)
-        });
-        responseOk = res.ok;
-      } else {
-        await new Promise(r => setTimeout(r, 600));
-        responseOk = true;
+      const endpointIsPlaceholder = !CONTACT_FORM_ENDPOINT || CONTACT_FORM_ENDPOINT.includes("xyzyqazb");
+      if (endpointIsPlaceholder) {
+        // Not configured yet: show the email fallback instead of pretending the message was sent
+        console.warn("CONTACT_FORM_ENDPOINT is still the placeholder. Set a real Formspree/Web3Forms URL at the top of script.js.");
+        throw new Error("Form endpoint not configured");
       }
+      const res = await fetch(CONTACT_FORM_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify(formData)
+      });
+      responseOk = res.ok;
 
       if (responseOk) {
         statusAlert.className = "form-status-alert success";
@@ -762,11 +782,165 @@ function initMobileBanner() {
   const closeBtn = document.getElementById("btnBannerClose");
   const banner = document.getElementById("mobileHrBanner");
 
+  const hrBtn = document.getElementById("btnBannerHrToggle");
+
   if (closeBtn && banner) {
     closeBtn.addEventListener("click", () => {
       banner.classList.add("is-dismissed");
     });
   }
+
+  if (hrBtn && banner) {
+    hrBtn.addEventListener("click", () => {
+      banner.classList.add("is-dismissed");
+      setMode("hr");
+    });
+  }
+}
+
+/* ==========================================================================
+   10. HR MODE: simple one-pager for people who just want the work
+   ========================================================================== */
+function scrollToEl(el) {
+  if (!el) return;
+  const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+}
+
+function applyModeUi(mode) {
+  const isHr = mode === "hr";
+  const btn = document.getElementById("btnModeToggle");
+  const label = document.getElementById("modeToggleLabel");
+  const icon = document.getElementById("modeToggleIcon");
+
+  if (btn) {
+    btn.setAttribute("aria-pressed", String(isHr));
+    btn.setAttribute("title", isHr ? "Back to the interactive desktop" : "Switch to HR mode: a simple one-page view");
+    btn.setAttribute("aria-label", isHr ? "Switch back to the interactive desktop" : "Switch to HR mode, a simple one-page view");
+  }
+  if (label) label.textContent = isHr ? "Back to desktop" : "HR mode";
+  if (icon) icon.textContent = isHr ? "←" : "☰";
+}
+
+// Called when the visitor toggles: saves the choice, updates ?mode= without a reload
+function setMode(mode) {
+  const next = mode === "hr" ? "hr" : "desktop";
+  document.documentElement.setAttribute("data-mode", next);
+  applyModeUi(next);
+
+  try { localStorage.setItem("portfolio-mode", next); } catch (e) {}
+
+  try {
+    const url = new URL(window.location.href);
+    url.searchParams.set("mode", next);
+    history.replaceState(null, "", url);
+  } catch (e) {}
+
+  window.scrollTo(0, 0);
+}
+
+function initModeToggle() {
+  renderHrMode();
+  applyModeUi(document.documentElement.getAttribute("data-mode") === "hr" ? "hr" : "desktop");
+
+  const btn = document.getElementById("btnModeToggle");
+  if (btn) {
+    btn.addEventListener("click", () => {
+      const current = document.documentElement.getAttribute("data-mode") === "hr" ? "hr" : "desktop";
+      setMode(current === "hr" ? "desktop" : "hr");
+    });
+  }
+}
+
+// Builds the HR page from the same data files and the About copy already in the page
+function renderHrMode() {
+  const root = document.getElementById("hrContainer");
+  if (!root) return;
+
+  const EMAIL = "sohanxpal18@gmail.com";
+  const linkedinEl = document.querySelector('#win-contact a[href*="linkedin"]');
+  const linkedinHref = linkedinEl ? linkedinEl.getAttribute("href") : "https://linkedin.com";
+
+  const allProjects = (typeof projects !== "undefined" && Array.isArray(projects)) ? projects : [];
+  const featured = allProjects.filter(p => p.featured);
+  const topWorks = (featured.length ? featured : allProjects).slice(0, 3);
+
+  const allTimeline = (typeof timeline !== "undefined" && Array.isArray(timeline)) ? timeline : [];
+  const recent = allTimeline.slice(0, 3);
+
+  const aboutParas = Array.from(document.querySelectorAll("#tab-about-bio .about-narrative p"))
+    .slice(0, 2)
+    .map(p => `<p>${p.textContent}</p>`)
+    .join("");
+
+  const worksHtml = topWorks.map(p => {
+    const tags = Array.isArray(p.tags) ? p.tags.join(" · ") : (p.tags || "");
+    return `
+      <article class="hr-card">
+        <img class="hr-card-img" src="${p.image}" alt="${p.title} preview" loading="lazy">
+        <div class="hr-card-body">
+          <div class="hr-card-meta">${p.category}${p.year ? " · " + p.year : ""}</div>
+          <h3 class="hr-card-title">${p.title}</h3>
+          <p class="hr-card-desc">${p.description}</p>
+          <div class="hr-card-tags">${tags}</div>
+          <a class="hr-card-link" href="${p.link}" target="_blank" rel="noopener noreferrer">View project ↗</a>
+        </div>
+      </article>`;
+  }).join("");
+
+  const recentHtml = recent.map(t => `
+      <li class="hr-timeline-item">
+        <span class="hr-timeline-year">${t.year}</span>
+        <div>
+          <div class="hr-timeline-role">${t.role}</div>
+          <div class="hr-timeline-org">${t.org}</div>
+        </div>
+      </li>`).join("");
+
+  root.innerHTML = `
+    <div class="hr-page">
+      <section class="hr-hero" aria-labelledby="hr-name">
+        <p class="hr-kicker">UI/UX and graphic designer · Kolkata</p>
+        <h1 class="hr-name" id="hr-name">Sohan Pal</h1>
+        <p class="hr-pitch">Crafting designs that interact and engage.</p>
+        <p class="hr-status"><span class="hr-status-dot" aria-hidden="true"></span>Open to work</p>
+        <div class="hr-actions">
+          <a class="btn btn-peach" href="mailto:${EMAIL}">Email me</a>
+          <a class="btn btn-outline" href="assets/resume.pdf" download="Sohan_Pal_Resume.pdf">Download resume</a>
+        </div>
+      </section>
+
+      <section class="hr-section" aria-labelledby="hr-works-h">
+        <h2 class="hr-h2" id="hr-works-h">Top works</h2>
+        <div class="hr-works">${worksHtml}</div>
+      </section>
+
+      <section class="hr-section" aria-labelledby="hr-about-h">
+        <h2 class="hr-h2" id="hr-about-h">About</h2>
+        <div class="hr-about">${aboutParas}</div>
+        <div id="hrFacts"></div>
+      </section>
+
+      <section class="hr-section" aria-labelledby="hr-recent-h">
+        <h2 class="hr-h2" id="hr-recent-h">Recent highlights</h2>
+        <ul class="hr-timeline">${recentHtml}</ul>
+      </section>
+
+      <section class="hr-section hr-cta" id="hr-cta" aria-labelledby="hr-cta-h">
+        <h2 class="hr-h2" id="hr-cta-h">Let's work together</h2>
+        <p>Open to internships, collaborations and freelance briefs. The fastest way to reach me is email.</p>
+        <div class="hr-actions">
+          <a class="btn btn-peach" href="mailto:${EMAIL}">${EMAIL}</a>
+          <a class="btn btn-outline" href="assets/resume.pdf" download="Sohan_Pal_Resume.pdf">Download resume</a>
+          <a class="btn btn-outline" href="${linkedinHref}" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+        </div>
+      </section>
+    </div>`;
+
+  // Reuse the About info strip (based in / email / status / focus) so the facts live in one place
+  const infoStrip = document.querySelector("#tab-about-bio .teal-info-strip");
+  const factsSlot = root.querySelector("#hrFacts");
+  if (infoStrip && factsSlot) factsSlot.appendChild(infoStrip.cloneNode(true));
 }
 
 /* ==========================================================================

@@ -495,7 +495,6 @@ body {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  touch-action: none;
 }
 
 .os-window.is-open {
@@ -529,6 +528,7 @@ body {
   user-select: none;
   cursor: grab;
   flex-shrink: 0;
+  touch-action: none;
 }
 
 .window-titlebar:active {
@@ -1751,5 +1751,327 @@ body {
   .tilt-neg, .tilt-pos, .tilt-subtle,
   .testimonial-card:hover {
     transform: none !important;
+  }
+}
+
+
+/* ==========================================================================
+   HR MODE TOGGLE (top-right of the menu bar)
+   ========================================================================== */
+.btn-mode-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--bg-cream-card);
+  color: var(--ink-black);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.78rem;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  border: var(--border-thin) solid var(--border-color);
+  box-shadow: 2px 2px 0 var(--border-color);
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.15s;
+}
+
+.btn-mode-toggle:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 var(--border-color);
+  background-color: var(--teal-window);
+}
+
+.btn-mode-toggle:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 var(--border-color);
+}
+
+.btn-mode-toggle[aria-pressed="true"] {
+  background-color: var(--teal-window);
+}
+
+.btn-mode-toggle:focus-visible,
+.hr-container a:focus-visible {
+  outline: 3px solid var(--ink-black);
+  outline-offset: 3px;
+}
+
+/* Secondary (outlined) button, used on the HR page */
+.btn-outline {
+  background-color: var(--bg-cream-card);
+  color: var(--ink-black);
+  text-decoration: none;
+}
+
+.btn-outline:hover {
+  background-color: var(--teal-window);
+}
+
+/* ==========================================================================
+   HR MODE: calm single-column one-pager
+   ========================================================================== */
+.hr-container {
+  display: none;
+}
+
+html[data-mode="hr"] body {
+  display: block;
+  height: auto;
+  min-height: 100vh;
+  overflow-y: auto;
+}
+
+/* Hide everything that belongs to the desktop */
+html[data-mode="hr"] .desktop-main,
+html[data-mode="hr"] .desktop-taskbar,
+html[data-mode="hr"] .mobile-hr-banner,
+html[data-mode="hr"] .cursor,
+html[data-mode="hr"] .nav-links,
+html[data-mode="hr"] .nav-center {
+  display: none !important;
+}
+
+html[data-mode="hr"] .top-menu-bar {
+  position: sticky;
+  top: 8px;
+}
+
+/* Native cursor comes back in HR mode */
+html[data-mode="hr"].custom-cursor-active,
+html[data-mode="hr"].custom-cursor-active * {
+  cursor: auto !important;
+}
+
+html[data-mode="hr"].custom-cursor-active a,
+html[data-mode="hr"].custom-cursor-active button,
+html[data-mode="hr"].custom-cursor-active .btn {
+  cursor: pointer !important;
+}
+
+html[data-mode="hr"] .hr-container {
+  display: block;
+  width: calc(100% - (var(--page-margin) * 2));
+  max-width: 760px;
+  margin: 40px auto 72px auto;
+}
+
+.hr-page {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.hr-kicker {
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+  margin-bottom: 10px;
+}
+
+.hr-name {
+  font-family: var(--font-heading);
+  font-size: clamp(2.6rem, 8vw, 4.2rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.hr-pitch {
+  font-family: var(--font-heading);
+  font-size: clamp(1.2rem, 3.4vw, 1.6rem);
+  font-weight: 500;
+  margin-top: 14px;
+}
+
+.hr-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  padding: 4px 12px;
+  background-color: var(--bg-cream-card);
+  border: var(--border-thin) solid var(--border-color);
+  border-radius: var(--radius-pill);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.hr-status-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background-color: var(--peach-accent);
+  border: var(--border-thin) solid var(--border-color);
+}
+
+.hr-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.hr-actions .btn {
+  text-decoration: none;
+}
+
+.hr-h2 {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  border-bottom: var(--border-width) solid var(--border-color);
+}
+
+.hr-works {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.hr-card {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 20px;
+  padding: 16px;
+  background-color: var(--bg-cream-card);
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--radius-card);
+}
+
+.hr-card-img {
+  width: 100%;
+  height: 100%;
+  min-height: 140px;
+  object-fit: cover;
+  border: var(--border-thin) solid var(--border-color);
+  border-radius: var(--radius-tag);
+  background-color: var(--teal-window);
+}
+
+.hr-card-meta {
+  font-size: 0.78rem;
+  color: var(--ink-muted);
+}
+
+.hr-card-title {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 4px 0 8px 0;
+}
+
+.hr-card-desc {
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.hr-card-tags {
+  margin-top: 10px;
+  font-size: 0.78rem;
+  color: var(--ink-muted);
+}
+
+.hr-card-link {
+  display: inline-block;
+  margin-top: 12px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--ink-black);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 2px;
+}
+
+.hr-about p {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  max-width: 62ch;
+}
+
+.hr-about p + p {
+  margin-top: 12px;
+}
+
+.hr-section .teal-info-strip {
+  box-shadow: none;
+  margin: 20px 0 0 0;
+}
+
+.hr-timeline {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.hr-timeline-item {
+  display: grid;
+  grid-template-columns: 70px minmax(0, 1fr);
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: var(--border-thin) solid var(--border-color);
+}
+
+.hr-timeline-item:first-child {
+  padding-top: 0;
+}
+
+.hr-timeline-year {
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.hr-timeline-role {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.02rem;
+}
+
+.hr-timeline-org {
+  font-size: 0.8rem;
+  color: var(--ink-muted);
+  margin-top: 2px;
+}
+
+.hr-cta p {
+  font-size: 0.95rem;
+  max-width: 56ch;
+}
+
+@media (max-width: 640px) {
+  .hr-card {
+    grid-template-columns: 1fr;
+  }
+  .hr-card-img {
+    height: auto;
+    aspect-ratio: 16 / 10;
+  }
+  .btn-mode-toggle {
+    padding: 4px 10px;
+  }
+}
+
+@media print {
+  .top-menu-bar,
+  .ambient-waves,
+  .mobile-hr-banner,
+  .cursor,
+  .desktop-taskbar {
+    display: none !important;
+  }
+
+  html[data-mode="hr"] body {
+    background: #fff;
+  }
+
+  html[data-mode="hr"] .hr-container {
+    margin: 0 auto;
+  }
+
+  .hr-card,
+  .hr-timeline-item {
+    break-inside: avoid;
   }
 }

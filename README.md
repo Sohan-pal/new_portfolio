@@ -1,129 +1,68 @@
-# Sohan Pal — Portfolio Website
+# Sohan Pal: Portfolio
 
-A pixel-faithful, responsive, retro-modern desktop portfolio website hand-coded with vanilla HTML, CSS, and JavaScript.
+A retro desktop-OS portfolio, hand-coded in plain HTML, CSS and vanilla JavaScript. No build step, no dependencies. Two ways to view it:
 
----
+- **Desktop mode (default):** one-screen interactive desktop. Folder icons on the right open draggable windows (Work, About me, Contact, Links) with a taskbar at the bottom.
+- **HR mode:** a simple one-page version for people who only want the work: top projects, a short bio, recent highlights and a contact call-to-action. Toggle it with the pill in the top-right of the menu bar, or link straight to it with `?mode=hr`.
 
-## 🚀 Live Preview & Local Development
-
-No build steps or dependencies required.
-
-You can preview the website by running any local HTTP server:
+## Run locally
 
 ```bash
-# Using Python
 python3 -m http.server 3000
-
-# Using Node.js (npx)
-npx serve .
+# or: npx serve .
 ```
 
-Open `http://localhost:3000` in your web browser.
+Open http://localhost:3000. After editing files, hard refresh (Cmd+Shift+R) so the browser doesn't serve a cached `script.js`.
 
----
-
-## 📁 File Structure
+## Files
 
 ```text
-├── index.html          # Semantic HTML5 layout & window components
-├── styles.css          # Design system tokens, hard offset shadows, typography & animations
-├── projects.js         # Data array of portfolio projects
-├── script.js           # Live clocks, scroll-spy, form handling, copy-to-clipboard
-├── README.md           # Documentation
-└── assets/             # Vector mockups, icons, and downloadable PDF resume
-    ├── project-aothub.svg
-    ├── project-spotifyfit.svg
-    ├── project-xpbar.svg
-    ├── project-posters.svg
-    └── resume.pdf
+index.html        Markup: menu bar, widget panel, 5 windows, icon column, taskbar, HR container
+styles.css        Design tokens (top of file), layout, window system, HR mode, mobile rules
+script.js         Clocks, data rendering, window manager, tabs, form, HR mode, custom cursor
+projects.js       Projects (id, title, category, year, description, tags, image, link, github, featured)
+testimonials.js   Testimonials (quote, author, org, fill, tilt)
+stack.js          Creative stack, 4 categories of chips
+timeline.js       Timeline entries, newest first
+assets/           Project images and resume.pdf
 ```
 
----
+Content lives in the four data files. Edit those, not the HTML.
 
-## 🛠️ How to Add or Edit a Project
+## Common edits
 
-All projects are rendered dynamically from `projects.js`. To add a new project, simply append an object to the `projects` array:
+**Add a project:** append an object to `projects.js`. Set `featured: true` on up to three projects; those appear in HR mode (if none are featured, the first three are used).
 
-```javascript
-{
-  id: "my-new-project",
-  title: "NextGen Dashboard",
-  category: "Web App · Design System",
-  year: "2026",
-  description: "A comprehensive design system and component library built for high-throughput enterprise analytics.",
-  tags: ["Figma", "Storybook", "React"],
-  image: "assets/my-project-preview.png",
-  link: "https://yourprojectlink.com"
-}
-```
+**Replace placeholder images:** drop images in `assets/` and update the `image` paths in `projects.js`.
 
-The page will automatically format the category, tags, and browser thumbnail frame.
+**Social links:** update the URLs in `index.html`. They appear twice: the Contact window and the Links window.
 
----
+**Resume:** replace `assets/resume.pdf` (keep the filename).
 
-## ✉️ How to Change the Contact Form Endpoint
+**About text and info strip:** edit the About tab in `index.html`. HR mode reuses that text, so it only needs changing once.
 
-In `script.js`, locate line 8:
+## Contact form
 
-```javascript
-const CONTACT_FORM_ENDPOINT = "https://formspree.io/f/xyzyqazb";
-```
+The form posts to `CONTACT_FORM_ENDPOINT` at the top of `script.js`. While it still holds the placeholder value, the form shows the "email me directly" fallback instead of pretending a message was sent. To connect it:
 
-Replace the URL with your own endpoint:
-- **Formspree**: `https://formspree.io/f/YOUR_FORM_ID`
-- **Web3Forms**: `https://api.web3forms.com/submit`
-- **Formkeep**: `https://formkeep.com/f/YOUR_TOKEN`
+1. Create a free form at Formspree or Web3Forms.
+2. Paste its URL into `CONTACT_FORM_ENDPOINT`.
+3. Send a test message.
 
-The script includes client-side validation, loading states, and success/error message alerts.
+## HR mode
 
----
+- Toggle in the menu bar. The choice is remembered in the browser.
+- `?mode=hr` and `?mode=desktop` force a mode for that visit (they are not saved), so `https://your-site/?mode=hr` is a good link for a resume or application.
+- The page has print styles, so HR mode prints cleanly.
 
-## 🌐 How to Deploy to Vercel
+## Deploy (static site, nothing to configure)
 
-Since this is a 100% static site with no build tool required:
+- **Netlify Drop:** drag the project folder onto app.netlify.com/drop.
+- **GitHub Pages:** push to GitHub, then Settings → Pages → deploy from the `main` branch.
+- **Vercel / Cloudflare Pages:** import the repo, framework preset "Other", no build command.
 
-### Option 1: Via Vercel CLI
-```bash
-# Install Vercel CLI (if not already installed)
-npm i -g vercel
+After deploying, test the form, the resume download, `?mode=hr` and the site on a phone.
 
-# Deploy directly from this directory
-vercel
-```
+## Design tokens
 
-Follow the prompts:
-1. `Set up and deploy?` → `Y`
-2. `Which scope?` → (Select your account)
-3. `Link to existing project?` → `N`
-4. `Project name?` → `sohan-portfolio`
-5. `In which directory is your code located?` → `./`
-6. `Want to modify these settings?` → `N`
-
-### Option 2: Via GitHub + Vercel Dashboard
-1. Push this directory to a GitHub repository:
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial portfolio commit"
-   git branch -M main
-   git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
-   git push -u origin main
-   ```
-2. Go to [vercel.com](https://vercel.com) and click **"Add New Project"**.
-3. Import your GitHub repository.
-4. Leave **Framework Preset** as **"Other"** (Root Directory `./`).
-5. Click **Deploy**.
-
----
-
-## 🎨 Design Tokens & Customization
-
-All colors, borders, and shadows are defined as CSS variables at the top of `styles.css`:
-
-- `--bg-cream`: Warm cream canvas background (`#EFE8D6`)
-- `--teal-window`: Pale teal hero window surface (`#B8D8D3`)
-- `--peach-accent`: Salmon/peach buttons and accents (`#E9B7A0`)
-- `--ink-black`: Near-black text and borders (`#111111`)
-- `--shadow-window`: Hard offset window shadow (`6px 6px 0 #111111`)
-- `--font-heading`: `'Space Grotesk'`, sans-serif
-- `--font-mono`: `'Space Mono'`, monospace
+All colors, borders, shadows and fonts are CSS variables at the top of `styles.css`: cream `#EFE8D6`, pale teal `#B8D8D3`, wave teal `#D3E4DD`, peach `#E9B7A0`, ink `#111111`; hard offset shadows; Space Grotesk for headings and Space Mono for UI text.
